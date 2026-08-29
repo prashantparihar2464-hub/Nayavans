@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#176b3a">
+<title>Nayavans — Your Village, Your Responsibility</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#17351f}
+.app{max-width:480px;margin:auto;min-height:100vh;background:white;padding-bottom:75px}
+header{background:#176b3a;color:white;padding:20px;text-align:center}
+header h1{margin:0;font:32px Georgia,serif}
+header p{margin:5px 0;font-weight:bold}
+.lang{border:0;border-radius:18px;padding:8px 12px;background:white;color:#176b3a;font-weight:bold}
+.hero{padding:20px;background:#eaf5ec}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+.card,.item{border:1px solid #dce7de;border-radius:15px;background:white;box-shadow:0 2px 10px #0000000a}
+.card{padding:16px;cursor:pointer}
+.card b{display:block;margin:8px 0 4px}
+.icon{font-size:28px}
+.full{margin:0 16px 16px}
+.section{display:none;padding:16px}
+.section.active{display:block}
+.back{border:0;background:none;color:#176b3a;font-size:16px;padding:4px 0 14px}
+.item{padding:14px;margin:10px 0}
+.small{font-size:13px;color:#68756c}
+input,textarea,select{width:100%;padding:12px;border:1px solid #cbd8ce;border-radius:10px;margin:7px 0 12px;font:inherit}
+.submit{width:100%;background:#176b3a;color:white;border:0;padding:13px;border-radius:10px;font-weight:bold}
+.action{border:0;border-radius:10px;padding:11px;margin:4px;cursor:pointer}
+.yes{background:#e5f4e9;color:#176b3a}
+.no{background:#fde9e7;color:#a83228}
+.maybe{background:#fff3d8;color:#855c00}
+.progress{height:9px;background:#e5ebe6;border-radius:9px;overflow:hidden}
+.bar{height:100%;background:#176b3a}
+.notice{background:#fff8e5;border-left:4px solid #dda000;padding:12px;border-radius:8px;margin:10px 16px}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:9px 2px}
+nav button{border:0;background:none;color:#46544a;font-size:12px}
+nav .plus{font-size:22px;color:#176b3a}
+footer{text-align:center;padding:18px;color:#66736a;font-size:12px}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+<button class="lang" onclick="toggleLang()">हिंदी / EN</button>
+<h1>Nayavans</h1>
+<p id="tag">Your Village, Your Responsibility</p>
+</header>
+
+<div id="home" class="section active">
+
+<div class="hero">
+<h2 id="welcome">Welcome to Nayavans</h2>
+<p id="sub">Let's work together for a better village.</p>
+<p class="small">
+Nayavans, Pinahat, Agra, Uttar Pradesh — <b>283123</b>
+</p>
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="show('report')">
+<span class="icon">🚨</span>
+<b id="c1">Report a Problem</b>
+<span class="small">समस्या बताएं</span>
+</div>
+
+<div class="card" onclick="show('proposals')">
+<span class="icon">🗳️</span>
+<b id="c2">Village Proposals</b>
+<span class="small">ग्राम प्रस्ताव</span>
+</div>
+
+<div class="card" onclick="show('development')">
+<span class="icon">🏗️</span>
+<b id="c3">Development Work</b>
+<span class="small">विकास कार्य</span>
+</div>
+
+<div class="card" onclick="show('announcements')">
+<span class="icon">📢</span>
+<b id="c4">Announcements</b>
+<span class="small">घोषणाएं</span>
+</div>
+
+</div>
+
+<div class="card full" onclick="show('progress')">
+<span class="icon">📊</span>
+<b>Village Progress / गाँव की प्रगति</b>
+<p class="small">Projects, reports and community activity.</p>
+</div>
+
+<div class="notice">
+⚠️ Community opinions are feedback. Official Gram Sabha/legal decisions remain governed by the applicable official process.
+</div>
+
+<footer>
+Nayavans · Your Village, Your Responsibility<br>
+Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
+</footer>
+
+</div>
+
+
+<div id="report" class="section">
+
+<button class="back" onclick="show('home')">← Back</button>
+
+<h2>🚨 Report a Problem</h2>
+
+<label>Category / श्रेणी</label>
+
+<select>
+<option>Road / सड़क</option>
+<option>Water / पानी</option>
+<option>Street light / स्ट्रीट लाइट</option>
+<option>Drainage / नाली</option>
+<option>Other / अन्य</option>
+</select>
+
+<label>Description / विवरण</label>
+
+<textarea id="desc" rows="4"
+placeholder="Describe the problem..."></textarea>
+
+<label>Location / स्थान</label>
+
+<input id="loc" placeholder="Example: Near school">
+
+<button class="submit" onclick="submitReport()">
+Submit Report / रिपोर्ट भेजें
+</button>
+
+<p id="reportMsg" class="small"></p>
+
+</div>
+
+
+<div id="proposals" class="section">
+
+<button class="back" onclick="show('home')">← Back</button>
+
+<h2>🗳️ Village Proposals</h2>
+
+<div class="item">
+
+<b>
+Road repair near the school /
+स्कूल के पास सड़क की मरम्मत
+</b>
+
+<p class="small">
+Should this proposal be supported?
+</p>
+
+<button class="action yes" onclick="vote(this)">
+👍 Support
+</button>
+
+<button class="action no" onclick="vote(this)">
+👎 Don't Support
+</button>
+
+<button class="action maybe" onclick="vote(this)">
+🤔 Need Discussion
+</button>
+
+<p class="small result">
+Current community feedback:
+72% Support · 18% Don't Support · 10% Discussion
+</p>
+
+</div>
+
+</div>
+
+
+<div id="development" class="section">
+
+<button class="back" onclick="show('home')">← Back</button>
+
+<h2>🏗️ Development Work</h2>
+
+<div class="item">
+
+<b>Main Road Improvement / मुख्य सड़क सुधार</b>
+
+<p class="small">
+Status: Work in progress
+</p>
+
+<div class="progress">
+<div class="bar" style="width:65%"></div>
+</div>
+
+<p>65% complete</p>
+
+</div>
+
+<div class="item">
+
+<b>Street Light Project / स्ट्रीट लाइट परियोजना</b>
+
+<p class="small">
+Status: Completed
+</p>
+
+<div class="progress">
+<div class="bar" style="width:100%"></div>
+</div>
+
+<p>100% complete</p>
+
+</div>
+
+</div>
+
+
+<div id="announcements" class="section">
+
+<button class="back" onclick="show('home')">← Back</button>
+
+<h2>📢 Announcements</h2>
+
+<div class="item">
+<b>Village Meeting / ग्राम बैठक</b>
+<p class="small">
+Important village meeting notices can be posted here.
+</p>
+</div>
+
+<div class="item">
+<b>Water Supply Update / पानी की सूचना</b>
+<p class="small">
+Updates about village services can appear here.
+</p>
+</div>
+
+</div>
+
+
+<div id="progress" class="section">
+
+<button class="back" onclick="show('home')">← Back</button>
+
+<h2>📊 Village Progress</h2>
+
+<div class="item">
+<b>Development
