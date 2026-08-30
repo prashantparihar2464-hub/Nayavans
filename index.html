@@ -8,41 +8,280 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#17351f}
-.app{max-width:480px;margin:auto;min-height:100vh;background:white;padding-bottom:75px}
-header{background:#176b3a;color:white;padding:20px;text-align:center}
-header h1{margin:0;font:32px Georgia,serif}
-header p{margin:5px 0;font-weight:bold}
-.lang{border:0;border-radius:18px;padding:8px 12px;background:white;color:#176b3a;font-weight:bold}
-.hero{padding:20px;background:#eaf5ec}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
-.card,.item{border:1px solid #dce7de;border-radius:15px;background:white;box-shadow:0 2px 10px #0000000a}
-.card{padding:16px;cursor:pointer}
-.card b{display:block;margin:8px 0 4px}
-.icon{font-size:28px}
-.full{margin:0 16px 16px}
-.section{display:none;padding:16px}
-.section.active{display:block}
-.back{border:0;background:none;color:#176b3a;font-size:16px;padding:4px 0 14px}
-.item{padding:14px;margin:10px 0}
-.small{font-size:13px;color:#68756c}
-input,textarea,select{width:100%;padding:12px;border:1px solid #cbd8ce;border-radius:10px;margin:7px 0 12px;font:inherit}
-.submit{width:100%;background:#176b3a;color:white;border:0;padding:13px;border-radius:10px;font-weight:bold}
-.action{border:0;border-radius:10px;padding:11px;margin:4px;cursor:pointer}
-.yes{background:#e5f4e9;color:#176b3a}
-.no{background:#fde9e7;color:#a83228}
-.maybe{background:#fff3d8;color:#855c00}
-.progress{height:9px;background:#e5ebe6;border-radius:9px;overflow:hidden}
-.bar{height:100%;background:#176b3a}
-.notice{background:#fff8e5;border-left:4px solid #dda000;padding:12px;border-radius:8px;margin:10px 16px}
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:9px 2px}
-nav button{border:0;background:none;color:#46544a;font-size:12px}
-nav .plus{font-size:22px;color:#176b3a}
-footer{text-align:center;padding:18px;color:#66736a;font-size:12px}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f3f7f4;
+color:#17351f
+}
+
+.app{
+max-width:480px;
+margin:auto;
+min-height:100vh;
+background:white;
+padding-bottom:75px
+}
+
+header{
+background:#176b3a;
+color:white;
+padding:20px;
+text-align:center
+}
+
+header h1{
+margin:0;
+font:32px Georgia,serif
+}
+
+header p{
+margin:5px 0;
+font-weight:bold
+}
+
+.lang{
+border:0;
+border-radius:18px;
+padding:8px 12px;
+background:white;
+color:#176b3a;
+font-weight:bold
+}
+
+.userbar{
+background:#eaf5ec;
+padding:10px 16px;
+font-size:14px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.logout{
+border:0;
+background:#176b3a;
+color:white;
+padding:7px 10px;
+border-radius:8px
+}
+
+.hero{
+padding:20px;
+background:#eaf5ec
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+padding:16px
+}
+
+.card,.item{
+border:1px solid #dce7de;
+border-radius:15px;
+background:white;
+box-shadow:0 2px 10px #0000000a
+}
+
+.card{
+padding:16px;
+cursor:pointer
+}
+
+.card b{
+display:block;
+margin:8px 0 4px
+}
+
+.icon{
+font-size:28px
+}
+
+.full{
+margin:0 16px 16px
+}
+
+.section{
+display:none;
+padding:16px
+}
+
+.section.active{
+display:block
+}
+
+.back{
+border:0;
+background:none;
+color:#176b3a;
+font-size:16px;
+padding:4px 0 14px
+}
+
+.item{
+padding:14px;
+margin:10px 0
+}
+
+.small{
+font-size:13px;
+color:#68756c
+}
+
+input,textarea,select{
+width:100%;
+padding:12px;
+border:1px solid #cbd8ce;
+border-radius:10px;
+margin:7px 0 12px;
+font:inherit
+}
+
+.submit{
+width:100%;
+background:#176b3a;
+color:white;
+border:0;
+padding:13px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer
+}
+
+.action{
+border:0;
+border-radius:10px;
+padding:11px;
+margin:4px;
+cursor:pointer
+}
+
+.yes{
+background:#e5f4e9;
+color:#176b3a
+}
+
+.no{
+background:#fde9e7;
+color:#a83228
+}
+
+.maybe{
+background:#fff3d8;
+color:#855c00
+}
+
+.progress{
+height:9px;
+background:#e5ebe6;
+border-radius:9px;
+overflow:hidden
+}
+
+.bar{
+height:100%;
+background:#176b3a
+}
+
+.notice{
+background:#fff8e5;
+border-left:4px solid #dda000;
+padding:12px;
+border-radius:8px;
+margin:10px 16px
+}
+
+.authbox{
+padding:16px;
+margin-top:10px
+}
+
+.auth-switch{
+text-align:center;
+margin-top:15px
+}
+
+.linkbtn{
+border:0;
+background:none;
+color:#176b3a;
+font-weight:bold;
+cursor:pointer
+}
+
+.error{
+color:#a83228;
+font-size:13px
+}
+
+.success{
+color:#176b3a;
+font-size:13px
+}
+
+.proposal-actions{
+margin-top:10px
+}
+
+.vote-result{
+font-size:13px;
+color:#68756c;
+margin-top:10px
+}
+
+.author{
+font-size:12px;
+color:#68756c;
+margin-top:8px
+}
+
+.empty{
+text-align:center;
+padding:20px;
+color:#68756c
+}
+
+nav{
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:min(480px,100%);
+background:white;
+border-top:1px solid #ddd;
+display:flex;
+justify-content:space-around;
+padding:9px 2px;
+z-index:10
+}
+
+nav button{
+border:0;
+background:none;
+color:#46544a;
+font-size:12px;
+cursor:pointer
+}
+
+nav .plus{
+font-size:22px;
+color:#176b3a
+}
+
+footer{
+text-align:center;
+padding:18px;
+color:#66736a;
+font-size:12px
+}
 </style>
 </head>
 
 <body>
+
 <div class="app">
 
 <header>
@@ -51,11 +290,53 @@ footer{text-align:center;padding:18px;color:#66736a;font-size:12px}
 <p id="tag">Your Village, Your Responsibility</p>
 </header>
 
+<!-- USER BAR -->
+<div id="userBar" class="userbar" style="display:none">
+<span>👤 <b id="userName"></b></span>
+<button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<!-- AUTH -->
+<div id="auth" class="section">
+
+<div class="authbox">
+
+<h2 id="authTitle">👤 Create Account</h2>
+
+<div id="nameBox">
+<label>Name / नाम</label>
+<input id="name" placeholder="Enter your name">
+</div>
+
+<label>Email / ईमेल</label>
+<input id="email" type="email" placeholder="Enter your email">
+
+<label>Password / पासवर्ड</label>
+<input id="password" type="password" placeholder="Create a password">
+
+<button class="submit" id="authButton" onclick="handleAuth()">
+Create Account
+</button>
+
+<p id="authMsg"></p>
+
+<div class="auth-switch">
+<span id="switchText">Already have an account?</span>
+<button class="linkbtn" onclick="toggleAuthMode()" id="switchButton">
+Sign In
+</button>
+</div>
+
+</div>
+</div>
+
+<!-- HOME -->
 <div id="home" class="section active">
 
 <div class="hero">
 <h2 id="welcome">Welcome to Nayavans</h2>
 <p id="sub">Let's work together for a better village.</p>
+
 <p class="small">
 Nayavans, Pinahat, Agra, Uttar Pradesh — <b>283123</b>
 </p>
@@ -65,25 +346,25 @@ Nayavans, Pinahat, Agra, Uttar Pradesh — <b>283123</b>
 
 <div class="card" onclick="show('report')">
 <span class="icon">🚨</span>
-<b id="c1">Report a Problem</b>
+<b>Report a Problem</b>
 <span class="small">समस्या बताएं</span>
 </div>
 
 <div class="card" onclick="show('proposals')">
 <span class="icon">🗳️</span>
-<b id="c2">Village Proposals</b>
+<b>Village Proposals</b>
 <span class="small">ग्राम प्रस्ताव</span>
 </div>
 
 <div class="card" onclick="show('development')">
 <span class="icon">🏗️</span>
-<b id="c3">Development Work</b>
+<b>Development Work</b>
 <span class="small">विकास कार्य</span>
 </div>
 
 <div class="card" onclick="show('announcements')">
 <span class="icon">📢</span>
-<b id="c4">Announcements</b>
+<b>Announcements</b>
 <span class="small">घोषणाएं</span>
 </div>
 
@@ -106,11 +387,14 @@ Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
 
 </div>
 
+<!-- REPORT -->
 <div id="report" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
 
 <h2>🚨 Report a Problem</h2>
+
+<p id="reportLoginMsg" class="small"></p>
 
 <label>Category / श्रेणी</label>
 
@@ -139,44 +423,61 @@ Submit Report / रिपोर्ट भेजें
 
 </div>
 
+<!-- PROPOSALS -->
 <div id="proposals" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
 
 <h2>🗳️ Village Proposals</h2>
 
-<div class="item">
-
-<b>
-Road repair near the school /
-स्कूल के पास सड़क की मरम्मत
-</b>
-
-<p class="small">
-Should this proposal be supported?
-</p>
-
-<button class="action yes" onclick="vote(this,'support')">
-👍 Support
+<button class="submit" onclick="show('newProposal')">
+➕ Submit a Proposal / प्रस्ताव दें
 </button>
 
-<button class="action no" onclick="vote(this,'against')">
-👎 Don't Support
-</button>
-
-<button class="action maybe" onclick="vote(this,'discussion')">
-🤔 Need Discussion
-</button>
-
-<p class="small result">
-Current community feedback:
-72% Support · 18% Don't Support · 10% Discussion
-</p>
-
+<div id="proposalList">
+<p class="empty">Loading proposals...</p>
 </div>
 
 </div>
 
+<!-- NEW PROPOSAL -->
+<div id="newProposal" class="section">
+
+<button class="back" onclick="show('proposals')">← Back</button>
+
+<h2>➕ Submit a Proposal</h2>
+
+<label>Proposal Title / प्रस्ताव का नाम</label>
+
+<input id="proposalTitle"
+placeholder="Example: Repair village road">
+
+<label>Description / विवरण</label>
+
+<textarea id="proposalDesc"
+rows="4"
+placeholder="Describe your proposal..."></textarea>
+
+<label>Category / श्रेणी</label>
+
+<select id="proposalCategory">
+<option>Road / सड़क</option>
+<option>Water / पानी</option>
+<option>Street Light / स्ट्रीट लाइट</option>
+<option>Cleanliness / सफाई</option>
+<option>Education / शिक्षा</option>
+<option>Other / अन्य</option>
+</select>
+
+<button class="submit" onclick="submitProposal()">
+Submit Proposal / प्रस्ताव भेजें
+</button>
+
+<p id="proposalMsg"></p>
+
+</div>
+
+<!-- DEVELOPMENT -->
 <div id="development" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
@@ -187,9 +488,7 @@ Current community feedback:
 
 <b>Main Road Improvement / मुख्य सड़क सुधार</b>
 
-<p class="small">
-Status: Work in progress
-</p>
+<p class="small">Status: Work in progress</p>
 
 <div class="progress">
 <div class="bar" style="width:65%"></div>
@@ -203,9 +502,7 @@ Status: Work in progress
 
 <b>Street Light Project / स्ट्रीट लाइट परियोजना</b>
 
-<p class="small">
-Status: Completed
-</p>
+<p class="small">Status: Completed</p>
 
 <div class="progress">
 <div class="bar" style="width:100%"></div>
@@ -217,6 +514,7 @@ Status: Completed
 
 </div>
 
+<!-- ANNOUNCEMENTS -->
 <div id="announcements" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
@@ -239,6 +537,7 @@ Updates about village services can appear here.
 
 </div>
 
+<!-- PROGRESS -->
 <div id="progress" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
@@ -246,7 +545,9 @@ Updates about village services can appear here.
 <h2>📊 Village Progress</h2>
 
 <div class="item">
+
 <b>Development Work</b>
+
 <p class="small">
 Main village development projects and their progress.
 </p>
@@ -256,100 +557,330 @@ Main village development projects and their progress.
 </div>
 
 <p>65% overall progress</p>
+
 </div>
 
 <div class="item">
+
 <b>Community Activity</b>
+
 <p class="small">
 Reports and proposals submitted by villagers.
 </p>
-</div>
 
 </div>
 
+</div>
+
+<!-- NAVIGATION -->
 <nav>
-<button onclick="show('home')">🏠<br>Home</button>
-<button onclick="show('report')">🚨<br>Report</button>
-<button class="plus" onclick="show('proposals')">＋</button>
-<button onclick="show('development')">🏗️<br>Work</button>
-<button onclick="show('announcements')">📢<br>News</button>
+
+<button onclick="show('home')">
+🏠<br>Home
+</button>
+
+<button onclick="show('report')">
+🚨<br>Report
+</button>
+
+<button class="plus" onclick="show('proposals')">
+＋
+</button>
+
+<button onclick="show('development')">
+🏗️<br>Work
+</button>
+
+<button onclick="show('announcements')">
+📢<br>News
+</button>
+
 </nav>
 
 </div>
 
-<!-- Firebase -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAIhlq_-76SA_1jNjO8qtoVoYHkezdHW0w",
-  authDomain: "nayavans.firebaseapp.com",
-  projectId: "nayavans",
-  storageBucket: "nayavans.firebasestorage.app",
-  messagingSenderId: "560311864570",
-  appId: "1:560311864570:web:60e6e6ce724146ab914d43",
-  measurementId: "G-45JC3T7MK2"
+apiKey:"AIzaSyAIhlq_-76SA_1jNjO8qtoVoYHkezdHW0w",
+authDomain:"nayavans.firebaseapp.com",
+projectId:"nayavans",
+storageBucket:"nayavans.firebasestorage.app",
+messagingSenderId:"560311864570",
+appId:"1:560311864570:web:60e6e6ce724146ab914d43",
+measurementId:"G-45JC3T7MK2"
 };
 
 firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+const auth=firebase.auth();
+const db=firebase.firestore();
+
+let loginMode=false;
+
+
+/* NAVIGATION */
 
 function show(id){
-document.querySelectorAll('.section').forEach(function(section){
-section.classList.remove('active');
+
+document.querySelectorAll(".section").forEach(function(section){
+section.classList.remove("active");
 });
 
-var selected=document.getElementById(id);
+const selected=document.getElementById(id);
 
 if(selected){
-selected.classList.add('active');
+selected.classList.add("active");
 window.scrollTo(0,0);
 }
+
+if(id==="proposals"){
+loadProposals();
 }
 
-async function vote(button, choice){
+}
 
-var result=button.parentElement.querySelector('.result');
+
+/* AUTH MODE */
+
+function toggleAuthMode(){
+
+loginMode=!loginMode;
+
+const title=document.getElementById("authTitle");
+const button=document.getElementById("authButton");
+const nameBox=document.getElementById("nameBox");
+const switchText=document.getElementById("switchText");
+const switchButton=document.getElementById("switchButton");
+const msg=document.getElementById("authMsg");
+
+msg.textContent="";
+
+if(loginMode){
+
+title.textContent="🔐 Sign In";
+button.textContent="Sign In";
+nameBox.style.display="none";
+switchText.textContent="Don't have an account?";
+switchButton.textContent="Create Account";
+
+}else{
+
+title.textContent="👤 Create Account";
+button.textContent="Create Account";
+nameBox.style.display="block";
+switchText.textContent="Already have an account?";
+switchButton.textContent="Sign In";
+
+}
+
+}
+
+
+/* AUTH */
+
+async function handleAuth(){
+
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
+const msg=document.getElementById("authMsg");
+
+msg.className="";
+
+if(!email || !password){
+
+msg.textContent="Please enter email and password.";
+msg.className="error";
+return;
+
+}
 
 try{
 
-await db.collection("votes").add({
-proposal:"Road repair near the school",
-choice:choice,
+if(loginMode){
+
+await auth.signInWithEmailAndPassword(email,password);
+
+msg.textContent="Signed in successfully.";
+
+}else{
+
+const name=document.getElementById("name").value.trim();
+
+if(!name){
+
+msg.textContent="Please enter your name.";
+msg.className="error";
+return;
+
+}
+
+const credential=
+await auth.createUserWithEmailAndPassword(email,password);
+
+await db.collection("users")
+.doc(credential.user.uid)
+.set({
+name:name,
+email:email,
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
 });
 
-result.textContent="Thanks! Your community feedback has been recorded.";
+msg.textContent="Account created successfully.";
+
+}
 
 }catch(error){
 
 console.error(error);
-result.textContent="Unable to save feedback. Please try again.";
+
+msg.textContent=getAuthError(error.code);
+msg.className="error";
 
 }
 
 }
+
+
+/* AUTH ERROR */
+
+function getAuthError(code){
+
+switch(code){
+
+case "auth/email-already-in-use":
+return "This email is already registered.";
+
+case "auth/invalid-email":
+return "Please enter a valid email.";
+
+case "auth/weak-password":
+return "Password should be at least 6 characters.";
+
+case "auth/user-not-found":
+return "No account found with this email.";
+
+case "auth/wrong-password":
+return "Incorrect password.";
+
+default:
+return "Something went wrong. Please try again.";
+
+}
+
+}
+
+
+/* AUTH STATE */
+
+auth.onAuthStateChanged(async function(user){
+
+const userBar=document.getElementById("userBar");
+const authSection=document.getElementById("auth");
+const userName=document.getElementById("userName");
+
+if(user){
+
+userBar.style.display="flex";
+
+try{
+
+const snap=
+await db.collection("users").doc(user.uid).get();
+
+if(snap.exists){
+
+userName.textContent=snap.data().name;
+
+}else{
+
+userName.textContent=user.email;
+
+}
+
+}catch(error){
+
+userName.textContent=user.email;
+
+}
+
+authSection.classList.remove("active");
+
+show("home");
+
+loadProposals();
+
+}else{
+
+userBar.style.display="none";
+
+}
+
+});
+
+
+/* LOGOUT */
+
+async function logout(){
+
+try{
+
+await auth.signOut();
+show("home");
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* SUBMIT REPORT */
 
 async function submitReport(){
 
-var category=document.getElementById('category').value;
-var desc=document.getElementById('desc').value.trim();
-var loc=document.getElementById('loc').value.trim();
-var msg=document.getElementById('reportMsg');
+const user=auth.currentUser;
+
+const msg=document.getElementById("reportMsg");
+
+if(!user){
+
+msg.textContent="Please create an account or sign in first.";
+msg.className="error";
+show("auth");
+return;
+
+}
+
+const category=document.getElementById("category").value;
+const desc=document.getElementById("desc").value.trim();
+const loc=document.getElementById("loc").value.trim();
 
 if(!desc){
 
 msg.textContent="Please describe the problem first.";
+msg.className="error";
 return;
 
 }
 
 msg.textContent="Submitting report...";
+msg.className="small";
 
 try{
+
+const profile=
+await db.collection("users").doc(user.uid).get();
+
+const name=
+profile.exists ? profile.data().name : user.email;
 
 await db.collection("reports").add({
 
@@ -357,30 +888,338 @@ category:category,
 description:desc,
 location:loc || "Not specified",
 status:"Submitted",
+userId:user.uid,
+userName:name,
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
-msg.textContent="Report submitted successfully. Thank you for helping your village.";
+msg.textContent=
+"Report submitted successfully. Thank you for helping your village.";
 
-document.getElementById('desc').value="";
-document.getElementById('loc').value="";
+msg.className="success";
+
+document.getElementById("desc").value="";
+document.getElementById("loc").value="";
 
 }catch(error){
 
 console.error(error);
 
-msg.textContent="Unable to submit report. Please check your connection and try again.";
+msg.textContent=
+"Unable to submit report. Please check your connection and try again.";
+
+msg.className="error";
 
 }
 
 }
+
+
+/* SUBMIT PROPOSAL */
+
+async function submitProposal(){
+
+const user=auth.currentUser;
+
+const msg=document.getElementById("proposalMsg");
+
+if(!user){
+
+msg.textContent="Please create an account or sign in first.";
+msg.className="error";
+show("auth");
+return;
+
+}
+
+const title=
+document.getElementById("proposalTitle").value.trim();
+
+const description=
+document.getElementById("proposalDesc").value.trim();
+
+const category=
+document.getElementById("proposalCategory").value;
+
+if(!title || !description){
+
+msg.textContent="Please enter a title and description.";
+msg.className="error";
+return;
+
+}
+
+msg.textContent="Submitting proposal...";
+msg.className="small";
+
+try{
+
+const profile=
+await db.collection("users").doc(user.uid).get();
+
+const name=
+profile.exists ? profile.data().name : user.email;
+
+await db.collection("proposals").add({
+
+title:title,
+description:description,
+category:category,
+userId:user.uid,
+userName:name,
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+});
+
+msg.textContent="Proposal submitted successfully!";
+msg.className="success";
+
+document.getElementById("proposalTitle").value="";
+document.getElementById("proposalDesc").value="";
+
+setTimeout(function(){
+
+show("proposals");
+
+},800);
+
+}catch(error){
+
+console.error(error);
+
+msg.textContent=
+"Unable to submit proposal. Please try again.";
+
+msg.className="error";
+
+}
+
+}
+
+
+/* LOAD PROPOSALS */
+
+async function loadProposals(){
+
+const list=document.getElementById("proposalList");
+
+list.innerHTML='<p class="empty">Loading proposals...</p>';
+
+try{
+
+const snapshot=
+await db.collection("proposals")
+.orderBy("createdAt","desc")
+.limit(30)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=
+'<p class="empty">No proposals yet. Be the first to submit one!</p>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+for(const doc of snapshot.docs){
+
+const data=doc.data();
+
+const item=document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+
+<b>${escapeHTML(data.title)}</b>
+
+<p class="small">
+${escapeHTML(data.description)}
+</p>
+
+<p class="small">
+Category: ${escapeHTML(data.category || "Other")}
+</p>
+
+<p class="author">
+Submitted by: ${escapeHTML(data.userName || "Nayavans user")}
+</p>
+
+<div class="proposal-actions">
+
+<button class="action yes"
+onclick="vote('${doc.id}','support',this)">
+👍 Support
+</button>
+
+<button class="action no"
+onclick="vote('${doc.id}','against',this)">
+👎 Don't Support
+</button>
+
+<button class="action maybe"
+onclick="vote('${doc.id}','discussion',this)">
+🤔 Need Discussion
+</button>
+
+</div>
+
+<p class="vote-result" id="result-${doc.id}">
+Loading community feedback...
+</p>
+
+`;
+
+list.appendChild(item);
+
+loadVoteCounts(doc.id);
+
+}
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load proposals. Please try again.</p>';
+
+}
+
+}
+
+
+/* VOTE */
+
+async function vote(proposalId,choice,button){
+
+const user=auth.currentUser;
+
+if(!user){
+
+show("auth");
+return;
+
+}
+
+try{
+
+const voteRef=
+db.collection("proposals")
+.doc(proposalId)
+.collection("votes")
+.doc(user.uid);
+
+await voteRef.set({
+
+choice:choice,
+userId:user.uid,
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+});
+
+button.parentElement
+.querySelectorAll("button")
+.forEach(function(btn){
+btn.disabled=true;
+});
+
+loadVoteCounts(proposalId);
+
+}catch(error){
+
+console.error(error);
+
+alert("Unable to record your vote. Please try again.");
+
+}
+
+}
+
+
+/* VOTE COUNTS */
+
+async function loadVoteCounts(proposalId){
+
+try{
+
+const snapshot=
+await db.collection("proposals")
+.doc(proposalId)
+.collection("votes")
+.get();
+
+let support=0;
+let against=0;
+let discussion=0;
+
+snapshot.forEach(function(doc){
+
+const choice=doc.data().choice;
+
+if(choice==="support")support++;
+if(choice==="against")against++;
+if(choice==="discussion")discussion++;
+
+});
+
+const total=support+against+discussion;
+
+let text="No votes yet.";
+
+if(total>0){
+
+const s=Math.round(support/total*100);
+const a=Math.round(against/total*100);
+const d=Math.round(discussion/total*100);
+
+text=
+"Community feedback: "+
+s+"% Support · "+
+a+"% Don't Support · "+
+d+"% Discussion";
+
+}
+
+const result=
+document.getElementById("result-"+proposalId);
+
+if(result){
+result.textContent=text;
+}
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* ESCAPE HTML */
+
+function escapeHTML(value){
+
+const div=document.createElement("div");
+
+div.textContent=value || "";
+
+return div.innerHTML;
+
+}
+
+
+/* LANGUAGE */
 
 function toggleLang(){
 
-var tag=document.getElementById('tag');
-var welcome=document.getElementById('welcome');
-var sub=document.getElementById('sub');
+const tag=document.getElementById("tag");
+const welcome=document.getElementById("welcome");
+const sub=document.getElementById("sub");
 
 if(tag.textContent==="Your Village, Your Responsibility"){
 
