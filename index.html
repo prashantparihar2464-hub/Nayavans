@@ -156,15 +156,15 @@ Road repair near the school /
 Should this proposal be supported?
 </p>
 
-<button class="action yes" onclick="vote(this)">
+<button class="action yes" onclick="vote(this,'support')">
 👍 Support
 </button>
 
-<button class="action no" onclick="vote(this)">
+<button class="action no" onclick="vote(this,'against')">
 👎 Don't Support
 </button>
 
-<button class="action maybe" onclick="vote(this)">
+<button class="action maybe" onclick="vote(this,'discussion')">
 🤔 Need Discussion
 </button>
 
@@ -277,51 +277,127 @@ Reports and proposals submitted by villagers.
 
 </div>
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 <script>
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAIhlq_-76SA_1jNjO8qtoVoYHkezdHW0w",
+  authDomain: "nayavans.firebaseapp.com",
+  projectId: "nayavans",
+  storageBucket: "nayavans.firebasestorage.app",
+  messagingSenderId: "560311864570",
+  appId: "1:560311864570:web:60e6e6ce724146ab914d43",
+  measurementId: "G-45JC3T7MK2"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
 function show(id){
 document.querySelectorAll('.section').forEach(function(section){
 section.classList.remove('active');
 });
+
 var selected=document.getElementById(id);
+
 if(selected){
 selected.classList.add('active');
 window.scrollTo(0,0);
 }
 }
 
-function vote(button){
+async function vote(button, choice){
+
 var result=button.parentElement.querySelector('.result');
-result.textContent="Thanks! Your community feedback has been recorded on this device.";
+
+try{
+
+await db.collection("votes").add({
+proposal:"Road repair near the school",
+choice:choice,
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+});
+
+result.textContent="Thanks! Your community feedback has been recorded.";
+
+}catch(error){
+
+console.error(error);
+result.textContent="Unable to save feedback. Please try again.";
+
 }
 
-function submitReport(){
+}
+
+async function submitReport(){
+
+var category=document.getElementById('category').value;
 var desc=document.getElementById('desc').value.trim();
 var loc=document.getElementById('loc').value.trim();
 var msg=document.getElementById('reportMsg');
 
 if(!desc){
+
 msg.textContent="Please describe the problem first.";
 return;
+
 }
 
-msg.textContent="Report prepared successfully. Location: "+(loc || "Not specified")+".";
+msg.textContent="Submitting report...";
+
+try{
+
+await db.collection("reports").add({
+
+category:category,
+description:desc,
+location:loc || "Not specified",
+status:"Submitted",
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+});
+
+msg.textContent="Report submitted successfully. Thank you for helping your village.";
+
+document.getElementById('desc').value="";
+document.getElementById('loc').value="";
+
+}catch(error){
+
+console.error(error);
+
+msg.textContent="Unable to submit report. Please check your connection and try again.";
+
+}
+
 }
 
 function toggleLang(){
+
 var tag=document.getElementById('tag');
 var welcome=document.getElementById('welcome');
 var sub=document.getElementById('sub');
 
 if(tag.textContent==="Your Village, Your Responsibility"){
+
 tag.textContent="आपका गाँव, आपकी जिम्मेदारी";
 welcome.textContent="नयावंस में आपका स्वागत है";
 sub.textContent="बेहतर गाँव के लिए मिलकर काम करें।";
+
 }else{
+
 tag.textContent="Your Village, Your Responsibility";
 welcome.textContent="Welcome to Nayavans";
 sub.textContent="Let's work together for a better village.";
+
 }
+
 }
+
 </script>
 
 </body>
