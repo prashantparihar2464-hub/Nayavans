@@ -106,7 +106,6 @@ Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
 
 </div>
 
-
 <div id="report" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
@@ -115,7 +114,7 @@ Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
 
 <label>Category / श्रेणी</label>
 
-<select>
+<select id="category">
 <option>Road / सड़क</option>
 <option>Water / पानी</option>
 <option>Street light / स्ट्रीट लाइट</option>
@@ -139,7 +138,6 @@ Submit Report / रिपोर्ट भेजें
 <p id="reportMsg" class="small"></p>
 
 </div>
-
 
 <div id="proposals" class="section">
 
@@ -178,7 +176,6 @@ Current community feedback:
 </div>
 
 </div>
-
 
 <div id="development" class="section">
 
@@ -220,7 +217,6 @@ Status: Completed
 
 </div>
 
-
 <div id="announcements" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
@@ -243,7 +239,6 @@ Updates about village services can appear here.
 
 </div>
 
-
 <div id="progress" class="section">
 
 <button class="back" onclick="show('home')">← Back</button>
@@ -251,4 +246,83 @@ Updates about village services can appear here.
 <h2>📊 Village Progress</h2>
 
 <div class="item">
-<b>Development
+<b>Development Work</b>
+<p class="small">
+Main village development projects and their progress.
+</p>
+
+<div class="progress">
+<div class="bar" style="width:65%"></div>
+</div>
+
+<p>65% overall progress</p>
+</div>
+
+<div class="item">
+<b>Community Activity</b>
+<p class="small">
+Reports and proposals submitted by villagers.
+</p>
+</div>
+
+</div>
+
+<nav>
+<button onclick="show('home')">🏠<br>Home</button>
+<button onclick="show('report')">🚨<br>Report</button>
+<button class="plus" onclick="show('proposals')">＋</button>
+<button onclick="show('development')">🏗️<br>Work</button>
+<button onclick="show('announcements')">📢<br>News</button>
+</nav>
+
+</div>
+
+<script>
+function show(id){
+document.querySelectorAll('.section').forEach(function(section){
+section.classList.remove('active');
+});
+var selected=document.getElementById(id);
+if(selected){
+selected.classList.add('active');
+window.scrollTo(0,0);
+}
+}
+
+function vote(button){
+var result=button.parentElement.querySelector('.result');
+result.textContent="Thanks! Your community feedback has been recorded on this device.";
+}
+
+function submitReport(){
+var desc=document.getElementById('desc').value.trim();
+var loc=document.getElementById('loc').value.trim();
+var msg=document.getElementById('reportMsg');
+
+if(!desc){
+msg.textContent="Please describe the problem first.";
+return;
+}
+
+msg.textContent="Report prepared successfully. Location: "+(loc || "Not specified")+".";
+}
+
+function toggleLang(){
+var tag=document.getElementById('tag');
+var welcome=document.getElementById('welcome');
+var sub=document.getElementById('sub');
+
+if(tag.textContent==="Your Village, Your Responsibility"){
+tag.textContent="आपका गाँव, आपकी जिम्मेदारी";
+welcome.textContent="नयावंस में आपका स्वागत है";
+sub.textContent="बेहतर गाँव के लिए मिलकर काम करें।";
+}else{
+tag.textContent="Your Village, Your Responsibility";
+welcome.textContent="Welcome to Nayavans";
+sub.textContent="Let's work together for a better village.";
+}
+}
+</script>
+
+</body>
+</html>
