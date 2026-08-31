@@ -1,3 +1,5 @@
+Done. Below is the complete replacement index.html with Leader Report Management integrated. It keeps your existing features and adds the new report-management section to the Leader Panel.
+Writing
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -200,6 +202,30 @@ padding:9px 12px;
 font-weight:bold;
 cursor:pointer;
 margin-top:8px
+}
+
+.status-btn{
+border:0;
+border-radius:8px;
+padding:9px 10px;
+margin:4px 2px;
+font-weight:bold;
+cursor:pointer
+}
+
+.status-submitted{
+background:#fff3d8;
+color:#855c00
+}
+
+.status-progress{
+background:#eaf0ff;
+color:#315ea8
+}
+
+.status-resolved{
+background:#e5f4e9;
+color:#176b3a
 }
 
 .progress{
@@ -460,30 +486,19 @@ Join your village community and help make it better.
 
 <label>Name / नाम</label>
 
-<input
-id="name"
-placeholder="Enter your name">
+<input id="name" placeholder="Enter your name">
 
 </div>
 
 <label>Email / ईमेल</label>
 
-<input
-id="email"
-type="email"
-placeholder="Enter your email">
+<input id="email" type="email" placeholder="Enter your email">
 
 <label>Password / पासवर्ड</label>
 
-<input
-id="password"
-type="password"
-placeholder="Enter your password">
+<input id="password" type="password" placeholder="Enter your password">
 
-<button
-class="submit"
-id="authButton"
-onclick="handleAuth()">
+<button class="submit" id="authButton" onclick="handleAuth()">
 Create Account
 </button>
 
@@ -495,10 +510,7 @@ Create Account
 Already have an account?
 </span>
 
-<button
-class="linkbtn"
-onclick="toggleAuthMode()"
-id="switchButton">
+<button class="linkbtn" onclick="toggleAuthMode()" id="switchButton">
 Sign In
 </button>
 
@@ -534,7 +546,7 @@ Nayavans, Pinahat, Agra, Uttar Pradesh —
 </div>
 
 <p class="small">
-You are registered as the Nayavans leader. You can manage proposals, announcements and development information.
+You are registered as the Nayavans leader. You can manage reports, proposals, announcements and development information.
 </p>
 
 <button class="submit" onclick="show('leaderPanel')">
@@ -546,43 +558,27 @@ Open Leader Panel
 <div class="grid">
 
 <div class="card" onclick="show('report')">
-
 <span class="icon">🚨</span>
-
 <b>Report a Problem</b>
-
 <span class="small">समस्या बताएं</span>
-
 </div>
 
 <div class="card" onclick="show('proposals')">
-
 <span class="icon">🗳️</span>
-
 <b>Village Proposals</b>
-
 <span class="small">ग्राम प्रस्ताव</span>
-
 </div>
 
 <div class="card" onclick="show('development')">
-
 <span class="icon">🏗️</span>
-
 <b>Development Work</b>
-
 <span class="small">विकास कार्य</span>
-
 </div>
 
 <div class="card" onclick="show('announcements')">
-
 <span class="icon">📢</span>
-
 <b>Announcements</b>
-
 <span class="small">घोषणाएं</span>
-
 </div>
 
 </div>
@@ -648,19 +644,13 @@ Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
 <div class="stat-grid">
 
 <div class="stat">
-
 <b id="reportCount">0</b>
-
 Reports
-
 </div>
 
 <div class="stat">
-
 <b id="proposalCount">0</b>
-
 Proposals
-
 </div>
 
 </div>
@@ -715,20 +705,13 @@ Proposals
 
 <label>Description / विवरण</label>
 
-<textarea
-id="desc"
-rows="4"
-placeholder="Describe the problem..."></textarea>
+<textarea id="desc" rows="4" placeholder="Describe the problem..."></textarea>
 
 <label>Location / स्थान</label>
 
-<input
-id="loc"
-placeholder="Example: Near school">
+<input id="loc" placeholder="Example: Near school">
 
-<button
-class="submit"
-onclick="submitReport()">
+<button class="submit" onclick="submitReport()">
 Submit Report / रिपोर्ट भेजें
 </button>
 
@@ -744,9 +727,7 @@ Submit Report / रिपोर्ट भेजें
 
 <h2>🗳️ Village Proposals</h2>
 
-<button
-class="submit"
-onclick="show('newProposal')">
+<button class="submit" onclick="show('newProposal')">
 ➕ Submit a Proposal / प्रस्ताव दें
 </button>
 
@@ -772,16 +753,11 @@ Loading proposals...
 
 <label>Proposal Title / प्रस्ताव का नाम</label>
 
-<input
-id="proposalTitle"
-placeholder="Example: Repair village road">
+<input id="proposalTitle" placeholder="Example: Repair village road">
 
 <label>Description / विवरण</label>
 
-<textarea
-id="proposalDesc"
-rows="4"
-placeholder="Describe your proposal..."></textarea>
+<textarea id="proposalDesc" rows="4" placeholder="Describe your proposal..."></textarea>
 
 <label>Category / श्रेणी</label>
 
@@ -796,9 +772,7 @@ placeholder="Describe your proposal..."></textarea>
 
 </select>
 
-<button
-class="submit"
-onclick="submitProposal()">
+<button class="submit" onclick="submitProposal()">
 Submit Proposal / प्रस्ताव भेजें
 </button>
 
@@ -910,30 +884,47 @@ Use this panel to manage community information. Your actions are stored in Fires
 
 </div>
 
+<!-- LEADER REPORT MANAGEMENT -->
+
+<h3>🚨 Manage Reports</h3>
+
+<div class="leader-box">
+
+<p class="small">
+Change the status of community reports so residents can track progress.
+</p>
+
+<div id="leaderReportList">
+
+<p class="empty">
+Loading reports...
+</p>
+
+</div>
+
+</div>
+
+<!-- LEADER PROPOSALS -->
+
 <h3>🗳️ Manage Proposals</h3>
 
 <div id="leaderProposalList">
+
 <p class="empty">Loading proposals...</p>
+
 </div>
 
 <h3>📢 Add Announcement</h3>
 
 <label>Title</label>
 
-<input
-id="announcementTitle"
-placeholder="Announcement title">
+<input id="announcementTitle" placeholder="Announcement title">
 
 <label>Message</label>
 
-<textarea
-id="announcementText"
-rows="4"
-placeholder="Write announcement..."></textarea>
+<textarea id="announcementText" rows="4" placeholder="Write announcement..."></textarea>
 
-<button
-class="submit"
-onclick="leaderAddAnnouncement()">
+<button class="submit" onclick="leaderAddAnnouncement()">
 Publish Announcement
 </button>
 
@@ -943,16 +934,11 @@ Publish Announcement
 
 <label>Project Name</label>
 
-<input
-id="projectName"
-placeholder="Example: Village road repair">
+<input id="projectName" placeholder="Example: Village road repair">
 
 <label>Description</label>
 
-<textarea
-id="projectDesc"
-rows="3"
-placeholder="Describe the work..."></textarea>
+<textarea id="projectDesc" rows="3" placeholder="Describe the work..."></textarea>
 
 <label>Status</label>
 
@@ -966,16 +952,9 @@ placeholder="Describe the work..."></textarea>
 
 <label>Progress %</label>
 
-<input
-id="projectProgress"
-type="number"
-min="0"
-max="100"
-value="0">
+<input id="projectProgress" type="number" min="0" max="100" value="0">
 
-<button
-class="submit"
-onclick="leaderAddProject()">
+<button class="submit" onclick="leaderAddProject()">
 Publish Development Work
 </button>
 
@@ -1038,7 +1017,6 @@ measurementId:"G-45JC3T7MK2"
 firebase.initializeApp(firebaseConfig);
 
 const auth=firebase.auth();
-
 const db=firebase.firestore();
 
 let loginMode=false;
@@ -1060,9 +1038,7 @@ return;
 if(id==="leaderPanel" && currentRole!=="leader"){
 
 alert("Leader access only.");
-
 show("home");
-
 return;
 
 }
@@ -1084,17 +1060,11 @@ window.scrollTo(0,0);
 }
 
 if(id==="proposals")loadProposals();
-
 if(id==="account")loadAccount();
-
 if(id==="myReports")loadMyReports();
-
 if(id==="progress")loadCommunityStats();
-
 if(id==="development")loadDevelopment();
-
 if(id==="announcements")loadAnnouncements();
-
 if(id==="leaderPanel")loadLeaderPanel();
 
 }
@@ -1376,7 +1346,6 @@ console.error(error);
 async function submitReport(){
 
 const user=auth.currentUser;
-
 const msg=document.getElementById("reportMsg");
 
 if(!user){
@@ -2324,6 +2293,8 @@ currentProfile && currentProfile.name
 ?currentProfile.name
 :"Leader";
 
+await loadLeaderReports();
+
 const list=
 document.getElementById("leaderProposalList");
 
@@ -2393,6 +2364,155 @@ console.error(error);
 
 list.innerHTML=
 '<p class="error">Unable to load leader proposals.</p>';
+
+}
+
+}
+
+
+/* LEADER REPORT MANAGEMENT */
+
+async function loadLeaderReports(){
+
+if(currentRole!=="leader")return;
+
+const list=document.getElementById("leaderReportList");
+
+list.innerHTML=
+'<p class="empty">Loading reports...</p>';
+
+try{
+
+const snapshot=
+await db.collection("reports")
+.orderBy("createdAt","desc")
+.limit(50)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=
+'<p class="empty">No reports available.</p>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+snapshot.forEach(function(doc){
+
+const data=doc.data();
+
+const status=data.status || "Submitted";
+
+const item=document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+
+<b>${escapeHTML(data.category || "Other")}</b>
+
+<p>
+${escapeHTML(data.description || "")}
+</p>
+
+<p class="small">
+📍 ${escapeHTML(data.location || "Not specified")}
+</p>
+
+<p class="author">
+Submitted by:
+${escapeHTML(data.userName || "Nayavans user")}
+</p>
+
+<p class="small">
+Current Status:
+<b>${escapeHTML(status)}</b>
+</p>
+
+<div>
+
+<button
+class="status-btn status-submitted"
+onclick="updateReportStatus('${doc.id}','Submitted')">
+Submitted
+</button>
+
+<button
+class="status-btn status-progress"
+onclick="updateReportStatus('${doc.id}','In Progress')">
+In Progress
+</button>
+
+<button
+class="status-btn status-resolved"
+onclick="updateReportStatus('${doc.id}','Resolved')">
+Resolved
+</button>
+
+</div>
+
+`;
+
+list.appendChild(item);
+
+});
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load reports.</p>';
+
+}
+
+}
+
+
+/* UPDATE REPORT STATUS */
+
+async function updateReportStatus(reportId,newStatus){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+if(!auth.currentUser){
+
+showAuth();
+return;
+
+}
+
+try{
+
+await db.collection("reports")
+.doc(reportId)
+.update({
+
+status:newStatus,
+statusUpdatedAt:firebase.firestore.FieldValue.serverTimestamp(),
+statusUpdatedBy:auth.currentUser.uid
+
+});
+
+alert("Report status updated to: "+newStatus);
+
+await loadLeaderReports();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to update report status. Check Firestore rules."
+);
 
 }
 
@@ -2646,4 +2766,4 @@ sub.textContent=
 </script>
 
 </body>
-</html>
+</html> 
