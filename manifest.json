@@ -1,0 +1,11 @@
+{
+  "name": "NayaVans — Your Village, Your Responsibility",
+  "short_name": "NayaVans",
+  "description": "A community platform for village reports, proposals, development work and announcements.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#176b3a",
+  "orientation": "portrait",
+  "icons": []
+}
