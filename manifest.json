@@ -7,5 +7,12 @@
   "background_color": "#ffffff",
   "theme_color": "#176b3a",
   "orientation": "portrait",
-  "icons": []
+  "icons": [
+  {
+    "src": "https://raw.githubusercontent.com/prashantparihar2464-hub/Nayavans/main/logo.png.jpeg",
+    "sizes": "512x512",
+    "type": "image/jpeg",
+    "purpose": "any maskable"
+  }
+]
 }
