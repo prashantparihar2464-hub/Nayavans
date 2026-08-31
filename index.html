@@ -27,12 +27,12 @@ padding-bottom:75px
 header{
 background:#176b3a;
 color:white;
-padding:20px;
+padding:18px;
 text-align:center
 }
 
 header h1{
-margin:0;
+margin:8px 0 2px;
 font:32px Georgia,serif
 }
 
@@ -244,6 +244,38 @@ padding:20px;
 color:#68756c
 }
 
+.profile-card{
+text-align:center;
+padding:20px;
+background:#eaf5ec;
+border-radius:15px;
+margin-bottom:15px
+}
+
+.avatar{
+font-size:50px
+}
+
+.stat-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px
+}
+
+.stat{
+background:#f3f7f4;
+padding:15px;
+border-radius:12px;
+text-align:center
+}
+
+.stat b{
+font-size:24px;
+display:block;
+color:#176b3a
+}
+
 nav{
 position:fixed;
 bottom:0;
@@ -291,12 +323,14 @@ font-size:12px
 </header>
 
 <!-- USER BAR -->
+
 <div id="userBar" class="userbar" style="display:none">
 <span>👤 <b id="userName"></b></span>
 <button class="logout" onclick="logout()">Logout</button>
 </div>
 
 <!-- AUTH -->
+
 <div id="auth" class="section">
 
 <div class="authbox">
@@ -304,93 +338,260 @@ font-size:12px
 <h2 id="authTitle">👤 Create Account</h2>
 
 <div id="nameBox">
+
 <label>Name / नाम</label>
-<input id="name" placeholder="Enter your name">
+
+<input
+id="name"
+placeholder="Enter your name">
+
 </div>
 
 <label>Email / ईमेल</label>
-<input id="email" type="email" placeholder="Enter your email">
+
+<input
+id="email"
+type="email"
+placeholder="Enter your email">
 
 <label>Password / पासवर्ड</label>
-<input id="password" type="password" placeholder="Create a password">
 
-<button class="submit" id="authButton" onclick="handleAuth()">
+<input
+id="password"
+type="password"
+placeholder="Create a password">
+
+<button
+class="submit"
+id="authButton"
+onclick="handleAuth()">
+
 Create Account
+
 </button>
 
 <p id="authMsg"></p>
 
 <div class="auth-switch">
-<span id="switchText">Already have an account?</span>
-<button class="linkbtn" onclick="toggleAuthMode()" id="switchButton">
+
+<span id="switchText">
+Already have an account?
+</span>
+
+<button
+class="linkbtn"
+onclick="toggleAuthMode()"
+id="switchButton">
+
 Sign In
+
 </button>
+
 </div>
 
 </div>
 </div>
 
 <!-- HOME -->
+
 <div id="home" class="section active">
 
 <div class="hero">
-<h2 id="welcome">Welcome to Nayavans</h2>
-<p id="sub">Let's work together for a better village.</p>
+
+<h2 id="welcome">
+Welcome to Nayavans
+</h2>
+
+<p id="sub">
+Let's work together for a better village.
+</p>
 
 <p class="small">
-Nayavans, Pinahat, Agra, Uttar Pradesh — <b>283123</b>
+Nayavans, Pinahat, Agra, Uttar Pradesh —
+<b>283123</b>
 </p>
+
+<button
+id="accountButton"
+class="submit"
+onclick="openAccount()"
+style="margin-top:10px">
+
+👤 Sign In / Create Account
+
+</button>
+
 </div>
 
 <div class="grid">
 
 <div class="card" onclick="show('report')">
+
 <span class="icon">🚨</span>
+
 <b>Report a Problem</b>
-<span class="small">समस्या बताएं</span>
+
+<span class="small">
+समस्या बताएं
+</span>
+
 </div>
 
 <div class="card" onclick="show('proposals')">
+
 <span class="icon">🗳️</span>
+
 <b>Village Proposals</b>
-<span class="small">ग्राम प्रस्ताव</span>
+
+<span class="small">
+ग्राम प्रस्ताव
+</span>
+
 </div>
 
 <div class="card" onclick="show('development')">
+
 <span class="icon">🏗️</span>
+
 <b>Development Work</b>
-<span class="small">विकास कार्य</span>
+
+<span class="small">
+विकास कार्य
+</span>
+
 </div>
 
 <div class="card" onclick="show('announcements')">
+
 <span class="icon">📢</span>
+
 <b>Announcements</b>
-<span class="small">घोषणाएं</span>
+
+<span class="small">
+घोषणाएं
+</span>
+
 </div>
 
 </div>
 
 <div class="card full" onclick="show('progress')">
+
 <span class="icon">📊</span>
+
 <b>Village Progress / गाँव की प्रगति</b>
-<p class="small">Projects, reports and community activity.</p>
+
+<p class="small">
+Projects, reports and community activity.
+</p>
+
 </div>
 
 <div class="notice">
-⚠️ Community opinions are feedback. Official Gram Sabha/legal decisions remain governed by the applicable official process.
+
+⚠️ Community opinions are feedback.
+Official Gram Sabha/legal decisions remain governed by
+the applicable official process.
+
 </div>
 
 <footer>
+
 Nayavans · Your Village, Your Responsibility<br>
+
 Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
+
 </footer>
 
 </div>
 
+<!-- ACCOUNT -->
+
+<div id="account" class="section">
+
+<button class="back" onclick="show('home')">
+← Back
+</button>
+
+<h2>👤 My Account</h2>
+
+<div class="profile-card">
+
+<div class="avatar">👤</div>
+
+<h2 id="profileName">
+User
+</h2>
+
+<p id="profileEmail" class="small">
+Email
+</p>
+
+<div class="stat-grid">
+
+<div class="stat">
+
+<b id="reportCount">
+0
+</b>
+
+Reports
+
+</div>
+
+<div class="stat">
+
+<b id="proposalCount">
+0
+</b>
+
+Proposals
+
+</div>
+
+</div>
+
+</div>
+
+<button class="submit" onclick="show('myReports')">
+🚨 My Reports
+</button>
+
+<br><br>
+
+<button class="submit" onclick="show('proposals')">
+🗳️ My Proposals
+</button>
+
+</div>
+
+<!-- MY REPORTS -->
+
+<div id="myReports" class="section">
+
+<button class="back" onclick="show('account')">
+← Back
+</button>
+
+<h2>🚨 My Reports</h2>
+
+<div id="myReportList">
+
+<p class="empty">
+Loading reports...
+</p>
+
+</div>
+
+</div>
+
 <!-- REPORT -->
+
 <div id="report" class="section">
 
-<button class="back" onclick="show('home')">← Back</button>
+<button class="back" onclick="show('home')">
+← Back
+</button>
 
 <h2>🚨 Report a Problem</h2>
 
@@ -399,24 +600,34 @@ Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
 <label>Category / श्रेणी</label>
 
 <select id="category">
+
 <option>Road / सड़क</option>
 <option>Water / पानी</option>
 <option>Street light / स्ट्रीट लाइट</option>
 <option>Drainage / नाली</option>
 <option>Other / अन्य</option>
+
 </select>
 
 <label>Description / विवरण</label>
 
-<textarea id="desc" rows="4"
+<textarea
+id="desc"
+rows="4"
 placeholder="Describe the problem..."></textarea>
 
 <label>Location / स्थान</label>
 
-<input id="loc" placeholder="Example: Near school">
+<input
+id="loc"
+placeholder="Example: Near school">
 
-<button class="submit" onclick="submitReport()">
+<button
+class="submit"
+onclick="submitReport()">
+
 Submit Report / रिपोर्ट भेजें
+
 </button>
 
 <p id="reportMsg" class="small"></p>
@@ -424,53 +635,75 @@ Submit Report / रिपोर्ट भेजें
 </div>
 
 <!-- PROPOSALS -->
+
 <div id="proposals" class="section">
 
-<button class="back" onclick="show('home')">← Back</button>
+<button class="back" onclick="show('home')">
+← Back
+</button>
 
 <h2>🗳️ Village Proposals</h2>
 
-<button class="submit" onclick="show('newProposal')">
+<button
+class="submit"
+onclick="show('newProposal')">
+
 ➕ Submit a Proposal / प्रस्ताव दें
+
 </button>
 
 <div id="proposalList">
-<p class="empty">Loading proposals...</p>
+
+<p class="empty">
+Loading proposals...
+</p>
+
 </div>
 
 </div>
 
 <!-- NEW PROPOSAL -->
+
 <div id="newProposal" class="section">
 
-<button class="back" onclick="show('proposals')">← Back</button>
+<button class="back" onclick="show('proposals')">
+← Back
+</button>
 
 <h2>➕ Submit a Proposal</h2>
 
 <label>Proposal Title / प्रस्ताव का नाम</label>
 
-<input id="proposalTitle"
+<input
+id="proposalTitle"
 placeholder="Example: Repair village road">
 
 <label>Description / विवरण</label>
 
-<textarea id="proposalDesc"
+<textarea
+id="proposalDesc"
 rows="4"
 placeholder="Describe your proposal..."></textarea>
 
 <label>Category / श्रेणी</label>
 
 <select id="proposalCategory">
+
 <option>Road / सड़क</option>
 <option>Water / पानी</option>
 <option>Street Light / स्ट्रीट लाइट</option>
 <option>Cleanliness / सफाई</option>
 <option>Education / शिक्षा</option>
 <option>Other / अन्य</option>
+
 </select>
 
-<button class="submit" onclick="submitProposal()">
+<button
+class="submit"
+onclick="submitProposal()">
+
 Submit Proposal / प्रस्ताव भेजें
+
 </button>
 
 <p id="proposalMsg"></p>
@@ -478,17 +711,24 @@ Submit Proposal / प्रस्ताव भेजें
 </div>
 
 <!-- DEVELOPMENT -->
+
 <div id="development" class="section">
 
-<button class="back" onclick="show('home')">← Back</button>
+<button class="back" onclick="show('home')">
+← Back
+</button>
 
 <h2>🏗️ Development Work</h2>
 
 <div class="item">
 
-<b>Main Road Improvement / मुख्य सड़क सुधार</b>
+<b>
+Main Road Improvement / मुख्य सड़क सुधार
+</b>
 
-<p class="small">Status: Work in progress</p>
+<p class="small">
+Status: Work in progress
+</p>
 
 <div class="progress">
 <div class="bar" style="width:65%"></div>
@@ -500,12 +740,21 @@ Submit Proposal / प्रस्ताव भेजें
 
 <div class="item">
 
-<b>Street Light Project / स्ट्रीट लाइट परियोजना</b>
+<b>
+Street Light Project / स्ट्रीट लाइट परियोजना
+</b>
 
-<p class="small">Status: Completed</p>
+<p class="small">
+Status: Completed
+</p>
 
 <div class="progress">
-<div class="bar" style="width:100%"></div>
+
+<div
+class="bar"
+style="width:100%">
+</div>
+
 </div>
 
 <p>100% complete</p>
@@ -515,32 +764,48 @@ Submit Proposal / प्रस्ताव भेजें
 </div>
 
 <!-- ANNOUNCEMENTS -->
+
 <div id="announcements" class="section">
 
-<button class="back" onclick="show('home')">← Back</button>
+<button class="back" onclick="show('home')">
+← Back
+</button>
 
 <h2>📢 Announcements</h2>
 
 <div class="item">
-<b>Village Meeting / ग्राम बैठक</b>
+
+<b>
+Village Meeting / ग्राम बैठक
+</b>
+
 <p class="small">
 Important village meeting notices can be posted here.
 </p>
+
 </div>
 
 <div class="item">
-<b>Water Supply Update / पानी की सूचना</b>
+
+<b>
+Water Supply Update / पानी की सूचना
+</b>
+
 <p class="small">
 Updates about village services can appear here.
 </p>
+
 </div>
 
 </div>
 
 <!-- PROGRESS -->
+
 <div id="progress" class="section">
 
-<button class="back" onclick="show('home')">← Back</button>
+<button class="back" onclick="show('home')">
+← Back
+</button>
 
 <h2>📊 Village Progress</h2>
 
@@ -553,7 +818,12 @@ Main village development projects and their progress.
 </p>
 
 <div class="progress">
-<div class="bar" style="width:65%"></div>
+
+<div
+class="bar"
+style="width:65%">
+</div>
+
 </div>
 
 <p>65% overall progress</p>
@@ -568,11 +838,36 @@ Main village development projects and their progress.
 Reports and proposals submitted by villagers.
 </p>
 
+<div class="stat-grid">
+
+<div class="stat">
+
+<b id="totalReports">
+0
+</b>
+
+Reports
+
+</div>
+
+<div class="stat">
+
+<b id="totalProposals">
+0
+</b>
+
+Proposals
+
+</div>
+
+</div>
+
 </div>
 
 </div>
 
 <!-- NAVIGATION -->
+
 <nav>
 
 <button onclick="show('home')">
@@ -583,7 +878,9 @@ Reports and proposals submitted by villagers.
 🚨<br>Report
 </button>
 
-<button class="plus" onclick="show('proposals')">
+<button
+class="plus"
+onclick="show('proposals')">
 ＋
 </button>
 
@@ -600,25 +897,37 @@ Reports and proposals submitted by villagers.
 </div>
 
 <!-- FIREBASE -->
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
 
 const firebaseConfig = {
+
 apiKey:"AIzaSyAIhlq_-76SA_1jNjO8qtoVoYHkezdHW0w",
+
 authDomain:"nayavans.firebaseapp.com",
+
 projectId:"nayavans",
+
 storageBucket:"nayavans.firebasestorage.app",
+
 messagingSenderId:"560311864570",
+
 appId:"1:560311864570:web:60e6e6ce724146ab914d43",
+
 measurementId:"G-45JC3T7MK2"
+
 };
 
 firebase.initializeApp(firebaseConfig);
 
 const auth=firebase.auth();
+
 const db=firebase.firestore();
 
 let loginMode=false;
@@ -628,19 +937,63 @@ let loginMode=false;
 
 function show(id){
 
-document.querySelectorAll(".section").forEach(function(section){
+document
+.querySelectorAll(".section")
+.forEach(function(section){
+
 section.classList.remove("active");
+
 });
 
 const selected=document.getElementById(id);
 
 if(selected){
+
 selected.classList.add("active");
+
 window.scrollTo(0,0);
+
 }
 
 if(id==="proposals"){
+
 loadProposals();
+
+}
+
+if(id==="account"){
+
+loadAccount();
+
+}
+
+if(id==="myReports"){
+
+loadMyReports();
+
+}
+
+if(id==="progress"){
+
+loadCommunityStats();
+
+}
+
+}
+
+
+/* ACCOUNT BUTTON */
+
+function openAccount(){
+
+if(auth.currentUser){
+
+show("account");
+
+}else{
+
+show("auth");
+
 }
 
 }
@@ -653,10 +1006,15 @@ function toggleAuthMode(){
 loginMode=!loginMode;
 
 const title=document.getElementById("authTitle");
+
 const button=document.getElementById("authButton");
+
 const nameBox=document.getElementById("nameBox");
+
 const switchText=document.getElementById("switchText");
+
 const switchButton=document.getElementById("switchButton");
+
 const msg=document.getElementById("authMsg");
 
 msg.textContent="";
@@ -664,17 +1022,25 @@ msg.textContent="";
 if(loginMode){
 
 title.textContent="🔐 Sign In";
+
 button.textContent="Sign In";
+
 nameBox.style.display="none";
+
 switchText.textContent="Don't have an account?";
+
 switchButton.textContent="Create Account";
 
 }else{
 
 title.textContent="👤 Create Account";
+
 button.textContent="Create Account";
+
 nameBox.style.display="block";
+
 switchText.textContent="Already have an account?";
+
 switchButton.textContent="Sign In";
 
 }
@@ -686,8 +1052,15 @@ switchButton.textContent="Sign In";
 
 async function handleAuth(){
 
-const email=document.getElementById("email").value.trim();
-const password=document.getElementById("password").value;
+const email=document
+.getElementById("email")
+.value
+.trim();
+
+const password=document
+.getElementById("password")
+.value;
+
 const msg=document.getElementById("authMsg");
 
 msg.className="";
@@ -695,7 +1068,9 @@ msg.className="";
 if(!email || !password){
 
 msg.textContent="Please enter email and password.";
+
 msg.className="error";
+
 return;
 
 }
@@ -704,34 +1079,52 @@ try{
 
 if(loginMode){
 
-await auth.signInWithEmailAndPassword(email,password);
-
-msg.textContent="Signed in successfully.";
+await auth.signInWithEmailAndPassword(
+email,
+password
+);
 
 }else{
 
-const name=document.getElementById("name").value.trim();
+const name=document
+.getElementById("name")
+.value
+.trim();
 
 if(!name){
 
 msg.textContent="Please enter your name.";
+
 msg.className="error";
+
 return;
 
 }
 
 const credential=
-await auth.createUserWithEmailAndPassword(email,password);
+await auth.createUserWithEmailAndPassword(
+email,
+password
+);
 
-await db.collection("users")
+await db
+.collection("users")
 .doc(credential.user.uid)
 .set({
+
 name:name,
+
 email:email,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
+
 });
 
-msg.textContent="Account created successfully.";
+msg.textContent=
+"Account created successfully.";
+
+msg.className="success";
 
 }
 
@@ -739,7 +1132,9 @@ msg.textContent="Account created successfully.";
 
 console.error(error);
 
-msg.textContent=getAuthError(error.code);
+msg.textContent=
+getAuthError(error.code);
+
 msg.className="error";
 
 }
@@ -768,6 +1163,9 @@ return "No account found with this email.";
 case "auth/wrong-password":
 return "Incorrect password.";
 
+case "auth/invalid-credential":
+return "Email or password is incorrect.";
+
 default:
 return "Something went wrong. Please try again.";
 
@@ -780,32 +1178,49 @@ return "Something went wrong. Please try again.";
 
 auth.onAuthStateChanged(async function(user){
 
-const userBar=document.getElementById("userBar");
-const authSection=document.getElementById("auth");
-const userName=document.getElementById("userName");
+const userBar=
+document.getElementById("userBar");
+
+const authSection=
+document.getElementById("auth");
+
+const userName=
+document.getElementById("userName");
+
+const accountButton=
+document.getElementById("accountButton");
 
 if(user){
 
 userBar.style.display="flex";
 
+accountButton.textContent=
+"👤 My Account";
+
 try{
 
 const snap=
-await db.collection("users").doc(user.uid).get();
+await db
+.collection("users")
+.doc(user.uid)
+.get();
 
 if(snap.exists){
 
-userName.textContent=snap.data().name;
+userName.textContent=
+snap.data().name;
 
 }else{
 
-userName.textContent=user.email;
+userName.textContent=
+user.email;
 
 }
 
 }catch(error){
 
-userName.textContent=user.email;
+userName.textContent=
+user.email;
 
 }
 
@@ -813,11 +1228,12 @@ authSection.classList.remove("active");
 
 show("home");
 
-loadProposals();
-
 }else{
 
 userBar.style.display="none";
+
+accountButton.textContent=
+"👤 Sign In / Create Account";
 
 }
 
@@ -831,6 +1247,7 @@ async function logout(){
 try{
 
 await auth.signOut();
+
 show("home");
 
 }catch(error){
@@ -848,49 +1265,85 @@ async function submitReport(){
 
 const user=auth.currentUser;
 
-const msg=document.getElementById("reportMsg");
+const msg=
+document.getElementById("reportMsg");
 
 if(!user){
 
-msg.textContent="Please create an account or sign in first.";
+msg.textContent=
+"Please create an account or sign in first.";
+
 msg.className="error";
+
 show("auth");
+
 return;
 
 }
 
-const category=document.getElementById("category").value;
-const desc=document.getElementById("desc").value.trim();
-const loc=document.getElementById("loc").value.trim();
+const category=
+document.getElementById("category").value;
+
+const desc=
+document.getElementById("desc")
+.value
+.trim();
+
+const loc=
+document.getElementById("loc")
+.value
+.trim();
 
 if(!desc){
 
-msg.textContent="Please describe the problem first.";
+msg.textContent=
+"Please describe the problem first.";
+
 msg.className="error";
+
 return;
 
 }
 
-msg.textContent="Submitting report...";
+msg.textContent=
+"Submitting report...";
+
 msg.className="small";
 
 try{
 
 const profile=
-await db.collection("users").doc(user.uid).get();
+await db
+.collection("users")
+.doc(user.uid)
+.get();
 
 const name=
-profile.exists ? profile.data().name : user.email;
+profile.exists
+?
+profile.data().name
+:
+user.email;
 
-await db.collection("reports").add({
+await db
+.collection("reports")
+.add({
 
 category:category,
+
 description:desc,
-location:loc || "Not specified",
+
+location:
+loc || "Not specified",
+
 status:"Submitted",
+
 userId:user.uid,
+
 userName:name,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
@@ -900,6 +1353,7 @@ msg.textContent=
 msg.className="success";
 
 document.getElementById("desc").value="";
+
 document.getElementById("loc").value="";
 
 }catch(error){
@@ -916,66 +1370,209 @@ msg.className="error";
 }
 
 
+/* MY REPORTS */
+
+async function loadMyReports(){
+
+const user=auth.currentUser;
+
+const list=
+document.getElementById("myReportList");
+
+if(!user){
+
+list.innerHTML=
+'<p class="empty">Please sign in first.</p>';
+
+return;
+
+}
+
+list.innerHTML=
+'<p class="empty">Loading reports...</p>';
+
+try{
+
+const snapshot=
+await db
+.collection("reports")
+.where("userId","==",user.uid)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=
+'<p class="empty">You have not submitted any reports yet.</p>';
+
+return;
+
+}
+
+let reports=[];
+
+snapshot.forEach(function(doc){
+
+reports.push({
+id:doc.id,
+...doc.data()
+});
+
+});
+
+reports.sort(function(a,b){
+
+const at=a.createdAt
+?
+a.createdAt.toMillis()
+:
+0;
+
+const bt=b.createdAt
+?
+b.createdAt.toMillis()
+:
+0;
+
+return bt-at;
+
+});
+
+list.innerHTML="";
+
+reports.forEach(function(data){
+
+const item=
+document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+
+<b>${escapeHTML(data.category)}</b>
+
+<p>
+${escapeHTML(data.description)}
+</p>
+
+<p class="small">
+📍 ${escapeHTML(data.location)}
+</p>
+
+<p class="small">
+Status: <b>${escapeHTML(data.status || "Submitted")}</b>
+</p>
+
+`;
+
+list.appendChild(item);
+
+});
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load your reports.</p>';
+
+}
+
+}
+
+
 /* SUBMIT PROPOSAL */
 
 async function submitProposal(){
 
 const user=auth.currentUser;
 
-const msg=document.getElementById("proposalMsg");
+const msg=
+document.getElementById("proposalMsg");
 
 if(!user){
 
-msg.textContent="Please create an account or sign in first.";
+msg.textContent=
+"Please create an account or sign in first.";
+
 msg.className="error";
+
 show("auth");
+
 return;
 
 }
 
 const title=
-document.getElementById("proposalTitle").value.trim();
+document.getElementById("proposalTitle")
+.value
+.trim();
 
 const description=
-document.getElementById("proposalDesc").value.trim();
+document.getElementById("proposalDesc")
+.value
+.trim();
 
 const category=
-document.getElementById("proposalCategory").value;
+document.getElementById("proposalCategory")
+.value;
 
 if(!title || !description){
 
-msg.textContent="Please enter a title and description.";
+msg.textContent=
+"Please enter a title and description.";
+
 msg.className="error";
+
 return;
 
 }
 
-msg.textContent="Submitting proposal...";
+msg.textContent=
+"Submitting proposal...";
+
 msg.className="small";
 
 try{
 
 const profile=
-await db.collection("users").doc(user.uid).get();
+await db
+.collection("users")
+.doc(user.uid)
+.get();
 
 const name=
-profile.exists ? profile.data().name : user.email;
+profile.exists
+?
+profile.data().name
+:
+user.email;
 
-await db.collection("proposals").add({
+await db
+.collection("proposals")
+.add({
 
 title:title,
+
 description:description,
+
 category:category,
+
 userId:user.uid,
+
 userName:name,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
-msg.textContent="Proposal submitted successfully!";
+msg.textContent=
+"Proposal submitted successfully!";
+
 msg.className="success";
 
 document.getElementById("proposalTitle").value="";
+
 document.getElementById("proposalDesc").value="";
 
 setTimeout(function(){
@@ -1002,14 +1599,17 @@ msg.className="error";
 
 async function loadProposals(){
 
-const list=document.getElementById("proposalList");
+const list=
+document.getElementById("proposalList");
 
-list.innerHTML='<p class="empty">Loading proposals...</p>';
+list.innerHTML=
+'<p class="empty">Loading proposals...</p>';
 
 try{
 
 const snapshot=
-await db.collection("proposals")
+await db
+.collection("proposals")
 .orderBy("createdAt","desc")
 .limit(30)
 .get();
@@ -1029,7 +1629,8 @@ for(const doc of snapshot.docs){
 
 const data=doc.data();
 
-const item=document.createElement("div");
+const item=
+document.createElement("div");
 
 item.className="item";
 
@@ -1042,34 +1643,49 @@ ${escapeHTML(data.description)}
 </p>
 
 <p class="small">
-Category: ${escapeHTML(data.category || "Other")}
+Category:
+${escapeHTML(data.category || "Other")}
 </p>
 
 <p class="author">
-Submitted by: ${escapeHTML(data.userName || "Nayavans user")}
+Submitted by:
+${escapeHTML(data.userName || "Nayavans user")}
 </p>
 
 <div class="proposal-actions">
 
-<button class="action yes"
+<button
+class="action yes"
 onclick="vote('${doc.id}','support',this)">
+
 👍 Support
+
 </button>
 
-<button class="action no"
+<button
+class="action no"
 onclick="vote('${doc.id}','against',this)">
+
 👎 Don't Support
+
 </button>
 
-<button class="action maybe"
+<button
+class="action maybe"
 onclick="vote('${doc.id}','discussion',this)">
+
 🤔 Need Discussion
+
 </button>
 
 </div>
 
-<p class="vote-result" id="result-${doc.id}">
+<p
+class="vote-result"
+id="result-${doc.id}">
+
 Loading community feedback...
+
 </p>
 
 `;
@@ -1077,6 +1693,12 @@ Loading community feedback...
 list.appendChild(item);
 
 loadVoteCounts(doc.id);
+
+if(auth.currentUser){
+
+checkUserVote(doc.id);
+
+}
 
 }
 
@@ -1092,15 +1714,77 @@ list.innerHTML=
 }
 
 
+/* CHECK USER VOTE */
+
+async function checkUserVote(proposalId){
+
+const user=auth.currentUser;
+
+if(!user)return;
+
+try{
+
+const voteRef=
+db
+.collection("proposals")
+.doc(proposalId)
+.collection("votes")
+.doc(user.uid);
+
+const snap=await voteRef.get();
+
+if(snap.exists){
+
+const choice=snap.data().choice;
+
+const buttons=
+document
+.querySelectorAll(
+"#proposalList .item button"
+);
+
+buttons.forEach(function(button){
+
+const onclick=
+button.getAttribute("onclick") || "";
+
+if(
+onclick.includes(
+"vote('"+proposalId+"'"
+)
+){
+
+button.disabled=true;
+
+}
+
+});
+
+}
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
 /* VOTE */
 
-async function vote(proposalId,choice,button){
+async function vote(
+proposalId,
+choice,
+button
+){
 
 const user=auth.currentUser;
 
 if(!user){
 
 show("auth");
+
 return;
 
 }
@@ -1108,7 +1792,8 @@ return;
 try{
 
 const voteRef=
-db.collection("proposals")
+db
+.collection("proposals")
 .doc(proposalId)
 .collection("votes")
 .doc(user.uid);
@@ -1116,15 +1801,20 @@ db.collection("proposals")
 await voteRef.set({
 
 choice:choice,
+
 userId:user.uid,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
 button.parentElement
 .querySelectorAll("button")
 .forEach(function(btn){
+
 btn.disabled=true;
+
 });
 
 loadVoteCounts(proposalId);
@@ -1133,7 +1823,9 @@ loadVoteCounts(proposalId);
 
 console.error(error);
 
-alert("Unable to record your vote. Please try again.");
+alert(
+"Unable to record your vote. Please try again."
+);
 
 }
 
@@ -1147,34 +1839,50 @@ async function loadVoteCounts(proposalId){
 try{
 
 const snapshot=
-await db.collection("proposals")
+await db
+.collection("proposals")
 .doc(proposalId)
 .collection("votes")
 .get();
 
 let support=0;
+
 let against=0;
+
 let discussion=0;
 
 snapshot.forEach(function(doc){
 
 const choice=doc.data().choice;
 
-if(choice==="support")support++;
-if(choice==="against")against++;
-if(choice==="discussion")discussion++;
+if(choice==="support")
+support++;
+
+if(choice==="against")
+against++;
+
+if(choice==="discussion")
+discussion++;
 
 });
 
-const total=support+against+discussion;
+const total=
+support+
+against+
+discussion;
 
 let text="No votes yet.";
 
 if(total>0){
 
-const s=Math.round(support/total*100);
-const a=Math.round(against/total*100);
-const d=Math.round(discussion/total*100);
+const s=
+Math.round(support/total*100);
+
+const a=
+Math.round(against/total*100);
+
+const d=
+Math.round(discussion/total*100);
 
 text=
 "Community feedback: "+
@@ -1185,11 +1893,118 @@ d+"% Discussion";
 }
 
 const result=
-document.getElementById("result-"+proposalId);
+document.getElementById(
+"result-"+proposalId
+);
 
 if(result){
+
 result.textContent=text;
+
 }
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* ACCOUNT DATA */
+
+async function loadAccount(){
+
+const user=auth.currentUser;
+
+if(!user){
+
+show("auth");
+
+return;
+
+}
+
+try{
+
+const profile=
+await db
+.collection("users")
+.doc(user.uid)
+.get();
+
+const name=
+profile.exists
+?
+profile.data().name
+:
+user.email;
+
+document.getElementById(
+"profileName"
+).textContent=name;
+
+document.getElementById(
+"profileEmail"
+).textContent=user.email;
+
+const reports=
+await db
+.collection("reports")
+.where("userId","==",user.uid)
+.get();
+
+const proposals=
+await db
+.collection("proposals")
+.where("userId","==",user.uid)
+.get();
+
+document.getElementById(
+"reportCount"
+).textContent=
+reports.size;
+
+document.getElementById(
+"proposalCount"
+).textContent=
+proposals.size;
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* COMMUNITY STATS */
+
+async function loadCommunityStats(){
+
+try{
+
+const reports=
+await db
+.collection("reports")
+.get();
+
+const proposals=
+await db
+.collection("proposals")
+.get();
+
+document.getElementById(
+"totalReports"
+).textContent=
+reports.size;
+
+document.getElementById(
+"totalProposals"
+).textContent=
+proposals.size;
 
 }catch(error){
 
@@ -1204,9 +2019,11 @@ console.error(error);
 
 function escapeHTML(value){
 
-const div=document.createElement("div");
+const div=
+document.createElement("div");
 
-div.textContent=value || "";
+div.textContent=
+value || "";
 
 return div.innerHTML;
 
@@ -1217,21 +2034,39 @@ return div.innerHTML;
 
 function toggleLang(){
 
-const tag=document.getElementById("tag");
-const welcome=document.getElementById("welcome");
-const sub=document.getElementById("sub");
+const tag=
+document.getElementById("tag");
 
-if(tag.textContent==="Your Village, Your Responsibility"){
+const welcome=
+document.getElementById("welcome");
 
-tag.textContent="आपका गाँव, आपकी जिम्मेदारी";
-welcome.textContent="नयावंस में आपका स्वागत है";
-sub.textContent="बेहतर गाँव के लिए मिलकर काम करें।";
+const sub=
+document.getElementById("sub");
+
+if(
+tag.textContent===
+"Your Village, Your Responsibility"
+){
+
+tag.textContent=
+"आपका गाँव, आपकी जिम्मेदारी";
+
+welcome.textContent=
+"नयावंस में आपका स्वागत है";
+
+sub.textContent=
+"बेहतर गाँव के लिए मिलकर काम करें।";
 
 }else{
 
-tag.textContent="Your Village, Your Responsibility";
-welcome.textContent="Welcome to Nayavans";
-sub.textContent="Let's work together for a better village.";
+tag.textContent=
+"Your Village, Your Responsibility";
+
+welcome.textContent=
+"Welcome to Nayavans";
+
+sub.textContent=
+"Let's work together for a better village.";
 
 }
 
