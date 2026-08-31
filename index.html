@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -411,6 +410,7 @@ display:none!important
 body.logged-out #home,
 body.logged-out #account,
 body.logged-out #myReports,
+body.logged-out #villageReports,
 body.logged-out #report,
 body.logged-out #proposals,
 body.logged-out #newProposal,
@@ -562,6 +562,12 @@ Open Leader Panel
 <span class="small">समस्या बताएं</span>
 </div>
 
+<div class="card" onclick="show('villageReports')">
+<span class="icon">📋</span>
+<b>Village Reports</b>
+<span class="small">गाँव की सभी शिकायतें</span>
+</div>
+
 <div class="card" onclick="show('proposals')">
 <span class="icon">🗳️</span>
 <b>Village Proposals</b>
@@ -662,6 +668,12 @@ Proposals
 
 <br><br>
 
+<button class="submit" onclick="show('villageReports')">
+📋 All Village Reports
+</button>
+
+<br><br>
+
 <button class="submit" onclick="show('proposals')">
 🗳️ Village Proposals
 </button>
@@ -678,6 +690,31 @@ Proposals
 
 <div id="myReportList">
 <p class="empty">Loading reports...</p>
+</div>
+
+</div>
+
+<!-- VILLAGE REPORTS -->
+
+<div id="villageReports" class="section">
+
+<button class="back" onclick="show('home')">
+← Back
+</button>
+
+<h2>📋 Village Reports</h2>
+
+<p class="small">
+All problems reported by villagers are shown here.
+Residents can see who reported the problem and track its current status.
+</p>
+
+<div id="villageReportList">
+
+<p class="empty">
+Loading village reports...
+</p>
+
 </div>
 
 </div>
@@ -1061,6 +1098,7 @@ window.scrollTo(0,0);
 if(id==="proposals")loadProposals();
 if(id==="account")loadAccount();
 if(id==="myReports")loadMyReports();
+if(id==="villageReports")loadVillageReports();
 if(id==="progress")loadCommunityStats();
 if(id==="development")loadDevelopment();
 if(id==="announcements")loadAnnouncements();
@@ -1409,6 +1447,111 @@ msg.className="error";
 }
 
 
+/* VILLAGE REPORTS */
+
+async function loadVillageReports(){
+
+const list=document.getElementById("villageReportList");
+
+list.innerHTML=
+'<p class="empty">Loading village reports...</p>';
+
+try{
+
+const snapshot=
+await db.collection("reports")
+.orderBy("createdAt","desc")
+.limit(100)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=
+'<p class="empty">No reports have been submitted yet.</p>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+snapshot.forEach(function(doc){
+
+const data=doc.data();
+
+const item=document.createElement("div");
+
+item.className="item";
+
+const status=data.status || "Submitted";
+
+let statusClass="status-submitted";
+
+if(status==="In Progress"){
+
+statusClass="status-progress";
+
+}
+
+if(status==="Resolved"){
+
+statusClass="status-resolved";
+
+}
+
+item.innerHTML=`
+
+<p class="author">
+
+👤 Reported by:
+<b>
+${escapeHTML(data.userName || "Nayavans user")}
+</b>
+
+</p>
+
+<b>
+${escapeHTML(data.category || "Other")}
+</b>
+
+<p>
+${escapeHTML(data.description || "")}
+</p>
+
+<p class="small">
+
+📍 ${escapeHTML(data.location || "Not specified")}
+
+</p>
+
+<p class="small">
+
+Status:
+
+<span class="status-btn ${statusClass}">
+${escapeHTML(status)}
+</span>
+
+</p>
+
+`;
+
+list.appendChild(item);
+
+});
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load village reports. Please try again.</p>';
+
+}
+
+}
+
+
 /* MY REPORTS */
 
 async function loadMyReports(){
@@ -1446,8 +1589,10 @@ let reports=[];
 snapshot.forEach(function(doc){
 
 reports.push({
+
 id:doc.id,
 ...doc.data()
+
 });
 
 });
@@ -1472,27 +1617,45 @@ item.className="item";
 item.innerHTML=`
 
 <p class="author">
+
 👤 Reported by:
-<b>${escapeHTML(data.userName || "Nayavans user")}</b>
+
+<b>
+${escapeHTML(data.userName || "Nayavans user")}
+</b>
+
 </p>
 
-<b>${escapeHTML(data.category)}</b>
+<b>
+${escapeHTML(data.category)}
+</b>
 
-<p>${escapeHTML(data.description)}</p>
+<p>
+${escapeHTML(data.description)}
+</p>
 
 <p class="small">
+
 📍 ${escapeHTML(data.location)}
+
 </p>
 
 <p class="small">
+
 Status:
-<b>${escapeHTML(data.status || "Submitted")}</b>
+
+<b>
+${escapeHTML(data.status || "Submitted")}
+</b>
+
 </p>
 
 <button
 class="delete"
 onclick="deleteReport('${data.id}')">
+
 🗑️ Delete
+
 </button>
 
 `;
@@ -1512,6 +1675,7 @@ list.innerHTML=
 
 }
 
+
 /* DELETE REPORT */
 
 async function deleteReport(reportId){
@@ -1530,6 +1694,7 @@ if(!confirm("Delete this report permanently?"))return;
 try{
 
 const ref=db.collection("reports").doc(reportId);
+
 const snap=await ref.get();
 
 if(!snap.exists){
@@ -1552,6 +1717,7 @@ alert("Report deleted successfully.");
 
 loadMyReports();
 loadAccount();
+loadVillageReports();
 
 }catch(error){
 
@@ -1578,14 +1744,22 @@ return;
 
 }
 
-const title=document.getElementById("proposalTitle").value.trim();
-const description=document.getElementById("proposalDesc").value.trim();
-const category=document.getElementById("proposalCategory").value;
+const title=
+document.getElementById("proposalTitle").value.trim();
+
+const description=
+document.getElementById("proposalDesc").value.trim();
+
+const category=
+document.getElementById("proposalCategory").value;
 
 if(!title || !description){
 
-msg.textContent="Please enter a title and description.";
+msg.textContent=
+"Please enter a title and description.";
+
 msg.className="error";
+
 return;
 
 }
@@ -1610,7 +1784,9 @@ createdAt:firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
-msg.textContent="Proposal submitted successfully!";
+msg.textContent=
+"Proposal submitted successfully!";
+
 msg.className="success";
 
 document.getElementById("proposalTitle").value="";
@@ -1684,7 +1860,9 @@ deleteButton=`
 <button
 class="delete"
 onclick="deleteProposal('${doc.id}')">
+
 🗑️ Delete Proposal
+
 </button>
 
 `;
@@ -1693,20 +1871,26 @@ onclick="deleteProposal('${doc.id}')">
 
 item.innerHTML=`
 
-<b>${escapeHTML(data.title)}</b>
+<b>
+${escapeHTML(data.title)}
+</b>
 
 <p class="small">
 ${escapeHTML(data.description)}
 </p>
 
 <p class="small">
+
 Category:
 ${escapeHTML(data.category || "Other")}
+
 </p>
 
 <p class="author">
+
 Submitted by:
 ${escapeHTML(data.userName || "Nayavans user")}
+
 </p>
 
 <div class="proposal-actions">
@@ -1714,19 +1898,25 @@ ${escapeHTML(data.userName || "Nayavans user")}
 <button
 class="action yes"
 onclick="vote('${doc.id}','support',this)">
+
 👍 Support
+
 </button>
 
 <button
 class="action no"
 onclick="vote('${doc.id}','against',this)">
+
 👎 Don't Support
+
 </button>
 
 <button
 class="action maybe"
 onclick="vote('${doc.id}','discussion',this)">
+
 🤔 Need Discussion
+
 </button>
 
 </div>
@@ -1734,7 +1924,9 @@ onclick="vote('${doc.id}','discussion',this)">
 <p
 class="vote-result"
 id="result-${doc.id}">
+
 Loading community feedback...
+
 </p>
 
 ${deleteButton}
@@ -1776,6 +1968,7 @@ return;
 try{
 
 const ref=db.collection("proposals").doc(proposalId);
+
 const snap=await ref.get();
 
 if(!snap.exists){
@@ -1963,7 +2156,8 @@ if(choice==="discussion")discussion++;
 
 });
 
-const total=support+against+discussion;
+const total=
+support+against+discussion;
 
 let text="No votes yet.";
 
@@ -2020,10 +2214,13 @@ const data=profile.exists
 :{};
 
 const name=data.name || user.email;
+
 const role=data.role || "user";
 
 document.getElementById("profileName").textContent=name;
-document.getElementById("profileEmail").textContent=user.email;
+
+document.getElementById("profileEmail").textContent=
+user.email;
 
 document.getElementById("profileRole").textContent=
 role==="leader"
@@ -2061,8 +2258,11 @@ async function loadCommunityStats(){
 
 try{
 
-const reports=await db.collection("reports").get();
-const proposals=await db.collection("proposals").get();
+const reports=
+await db.collection("reports").get();
+
+const proposals=
+await db.collection("proposals").get();
 
 document.getElementById("totalReports").textContent=
 reports.size;
@@ -2083,7 +2283,8 @@ console.error(error);
 
 async function loadDevelopment(){
 
-const list=document.getElementById("developmentList");
+const list=
+document.getElementById("developmentList");
 
 list.innerHTML=
 '<p class="empty">Loading development work...</p>';
@@ -2102,14 +2303,21 @@ list.innerHTML=`
 
 <div class="item">
 
-<b>Main Road Improvement / मुख्य सड़क सुधार</b>
+<b>
+Main Road Improvement / मुख्य सड़क सुधार
+</b>
 
 <p class="small">
 Status: Work in progress
 </p>
 
 <div class="progress">
-<div class="bar" style="width:65%"></div>
+
+<div
+class="bar"
+style="width:65%">
+</div>
+
 </div>
 
 <p>65% complete</p>
@@ -2118,14 +2326,21 @@ Status: Work in progress
 
 <div class="item">
 
-<b>Street Light Project / स्ट्रीट लाइट परियोजना</b>
+<b>
+Street Light Project / स्ट्रीट लाइट परियोजना
+</b>
 
 <p class="small">
 Status: Completed
 </p>
 
 <div class="progress">
-<div class="bar" style="width:100%"></div>
+
+<div
+class="bar"
+style="width:100%">
+</div>
+
 </div>
 
 <p>100% complete</p>
@@ -2156,14 +2371,17 @@ item.className="item";
 
 item.innerHTML=`
 
-<b>${escapeHTML(data.name)}</b>
+<b>
+${escapeHTML(data.name)}
+</b>
 
 <p class="small">
 ${escapeHTML(data.description || "")}
 </p>
 
 <p class="small">
-Status: ${escapeHTML(data.status || "Planned")}
+Status:
+${escapeHTML(data.status || "Planned")}
 </p>
 
 <div class="progress">
@@ -2175,7 +2393,9 @@ style="width:${progress}%">
 
 </div>
 
-<p>${progress}% complete</p>
+<p>
+${progress}% complete
+</p>
 
 `;
 
@@ -2199,7 +2419,8 @@ list.innerHTML=
 
 async function loadAnnouncements(){
 
-const list=document.getElementById("announcementList");
+const list=
+document.getElementById("announcementList");
 
 list.innerHTML=
 '<p class="empty">Loading announcements...</p>';
@@ -2218,7 +2439,9 @@ list.innerHTML=`
 
 <div class="item">
 
-<b>Village Meeting / ग्राम बैठक</b>
+<b>
+Village Meeting / ग्राम बैठक
+</b>
 
 <p class="small">
 Important village meeting notices can be posted here by the authorized leader.
@@ -2228,7 +2451,9 @@ Important village meeting notices can be posted here by the authorized leader.
 
 <div class="item">
 
-<b>Water Supply Update / पानी की सूचना</b>
+<b>
+Water Supply Update / पानी की सूचना
+</b>
 
 <p class="small">
 Updates about village services can appear here.
@@ -2254,12 +2479,17 @@ item.className="item";
 
 item.innerHTML=`
 
-<b>${escapeHTML(data.title)}</b>
+<b>
+${escapeHTML(data.title)}
+</b>
 
-<p>${escapeHTML(data.text)}</p>
+<p>
+${escapeHTML(data.text)}
+</p>
 
 <p class="author">
-Posted by ${escapeHTML(data.userName || "Nayavans Leader")}
+Posted by
+${escapeHTML(data.userName || "Nayavans Leader")}
 </p>
 
 `;
@@ -2333,26 +2563,34 @@ item.className="item";
 
 item.innerHTML=`
 
-<b>${escapeHTML(data.title)}</b>
+<b>
+${escapeHTML(data.title)}
+</b>
 
 <p class="small">
 ${escapeHTML(data.description)}
 </p>
 
 <p class="small">
+
 Category:
 ${escapeHTML(data.category || "Other")}
+
 </p>
 
 <p class="author">
+
 Submitted by:
 ${escapeHTML(data.userName || "Nayavans user")}
+
 </p>
 
 <button
 class="delete"
 onclick="leaderDeleteProposal('${doc.id}')">
+
 🗑️ Delete Proposal
+
 </button>
 
 `;
@@ -2379,7 +2617,8 @@ async function loadLeaderReports(){
 
 if(currentRole!=="leader")return;
 
-const list=document.getElementById("leaderReportList");
+const list=
+document.getElementById("leaderReportList");
 
 list.innerHTML=
 '<p class="empty">Loading reports...</p>';
@@ -2407,32 +2646,48 @@ snapshot.forEach(function(doc){
 
 const data=doc.data();
 
-const status=data.status || "Submitted";
+const status=
+data.status || "Submitted";
 
-const item=document.createElement("div");
+const item=
+document.createElement("div");
 
 item.className="item";
 
 item.innerHTML=`
 
-<b>${escapeHTML(data.category || "Other")}</b>
+<p class="author">
+
+👤 Reported by:
+
+<b>
+${escapeHTML(data.userName || "Nayavans user")}
+</b>
+
+</p>
+
+<b>
+${escapeHTML(data.category || "Other")}
+</b>
 
 <p>
 ${escapeHTML(data.description || "")}
 </p>
 
 <p class="small">
-📍 ${escapeHTML(data.location || "Not specified")}
-</p>
 
-<p class="author">
-Submitted by:
-${escapeHTML(data.userName || "Nayavans user")}
+📍 ${escapeHTML(data.location || "Not specified")}
+
 </p>
 
 <p class="small">
+
 Current Status:
-<b>${escapeHTML(status)}</b>
+
+<b>
+${escapeHTML(status)}
+</b>
+
 </p>
 
 <div>
@@ -2440,19 +2695,25 @@ Current Status:
 <button
 class="status-btn status-submitted"
 onclick="updateReportStatus('${doc.id}','Submitted')">
+
 Submitted
+
 </button>
 
 <button
 class="status-btn status-progress"
 onclick="updateReportStatus('${doc.id}','In Progress')">
+
 In Progress
+
 </button>
 
 <button
 class="status-btn status-resolved"
 onclick="updateReportStatus('${doc.id}','Resolved')">
+
 Resolved
+
 </button>
 
 </div>
@@ -2500,12 +2761,19 @@ await db.collection("reports")
 .update({
 
 status:newStatus,
-statusUpdatedAt:firebase.firestore.FieldValue.serverTimestamp(),
-statusUpdatedBy:auth.currentUser.uid
+
+statusUpdatedAt:
+firebase.firestore.FieldValue.serverTimestamp(),
+
+statusUpdatedBy:
+auth.currentUser.uid
 
 });
 
-alert("Report status updated to: "+newStatus);
+alert(
+"Report status updated to: "+
+newStatus
+);
 
 await loadLeaderReports();
 
@@ -2599,10 +2867,17 @@ try{
 await db.collection("announcements").add({
 
 title:title,
+
 text:text,
-userId:auth.currentUser.uid,
-userName:currentProfile.name || "Leader",
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+userId:
+auth.currentUser.uid,
+
+userName:
+currentProfile.name || "Leader",
+
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
@@ -2612,6 +2887,7 @@ msg.textContent=
 msg.className="success";
 
 document.getElementById("announcementTitle").value="";
+
 document.getElementById("announcementText").value="";
 
 loadAnnouncements();
@@ -2653,7 +2929,10 @@ const status=
 document.getElementById("projectStatus").value;
 
 const progress=
-Number(document.getElementById("projectProgress").value || 0);
+Number(
+document.getElementById("projectProgress")
+.value || 0
+);
 
 const msg=
 document.getElementById("projectMsg");
@@ -2685,12 +2964,21 @@ try{
 await db.collection("development").add({
 
 name:name,
+
 description:desc,
+
 status:status,
+
 progress:progress,
-userId:auth.currentUser.uid,
-userName:currentProfile.name || "Leader",
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+userId:
+auth.currentUser.uid,
+
+userName:
+currentProfile.name || "Leader",
+
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
@@ -2700,7 +2988,9 @@ msg.textContent=
 msg.className="success";
 
 document.getElementById("projectName").value="";
+
 document.getElementById("projectDesc").value="";
+
 document.getElementById("projectProgress").value="0";
 
 loadDevelopment();
@@ -2737,10 +3027,17 @@ return div.innerHTML;
 function toggleLang(){
 
 const tag=document.getElementById("tag");
-const welcome=document.getElementById("welcome");
-const sub=document.getElementById("sub");
 
-if(tag.textContent==="Your Village, Your Responsibility"){
+const welcome=
+document.getElementById("welcome");
+
+const sub=
+document.getElementById("sub");
+
+if(
+tag.textContent===
+"Your Village, Your Responsibility"
+){
 
 tag.textContent=
 "आपका गाँव, आपकी जिम्मेदारी";
@@ -2769,4 +3066,4 @@ sub.textContent=
 </script>
 
 </body>
-</html> 
+</html>
