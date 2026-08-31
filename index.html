@@ -1472,6 +1472,11 @@ item.className="item";
 
 item.innerHTML=`
 
+<p class="author">
+👤 Reported by:
+<b>${escapeHTML(data.userName || "Nayavans user")}</b>
+</p>
+
 <b>${escapeHTML(data.category)}</b>
 
 <p>${escapeHTML(data.description)}</p>
@@ -1507,7 +1512,6 @@ list.innerHTML=
 }
 
 }
-
 
 /* DELETE REPORT */
 
