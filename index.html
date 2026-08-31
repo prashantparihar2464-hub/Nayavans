@@ -728,11 +728,9 @@ Residents can see who reported the problem and track its current status.
 </p>
 
 <div id="villageReportList">
-
 <p class="empty">
 Loading village reports...
 </p>
-
 </div>
 
 </div>
@@ -748,13 +746,11 @@ Loading village reports...
 <label>Category / श्रेणी</label>
 
 <select id="category">
-
 <option>Road / सड़क</option>
 <option>Water / पानी</option>
 <option>Street light / स्ट्रीट लाइट</option>
 <option>Drainage / नाली</option>
 <option>Other / अन्य</option>
-
 </select>
 
 <label>Description / विवरण</label>
@@ -803,7 +799,7 @@ Loading proposals...
 ← Back
 </button>
 
-<h2>➕ Submit a Proposal</h2>
+<h2 id="proposalFormHeading">➕ Submit a Proposal</h2>
 
 <label>Proposal Title / प्रस्ताव का नाम</label>
 
@@ -826,8 +822,15 @@ Loading proposals...
 
 </select>
 
-<button class="submit" onclick="submitProposal()">
+<button class="submit" id="proposalSaveButton" onclick="submitProposal()">
 Submit Proposal / प्रस्ताव दें
+</button>
+
+<button
+id="proposalCancelButton"
+class="cancel-edit hidden"
+onclick="cancelProposalEdit()">
+Cancel Edit
 </button>
 
 <p id="proposalMsg"></p>
@@ -1105,6 +1108,7 @@ let currentProfile=null;
 
 let editingAnnouncementId=null;
 let editingProjectId=null;
+let editingProposalId=null;
 
 
 /* NAVIGATION */
@@ -1532,36 +1536,25 @@ statusClass="status-resolved";
 item.innerHTML=`
 
 <p class="author">
-
 👤 Reported by:
-<b>
-${escapeHTML(data.userName || "Nayavans user")}
-</b>
-
+<b>${escapeHTML(data.userName || "Nayavans user")}</b>
 </p>
 
-<b>
-${escapeHTML(data.category || "Other")}
-</b>
+<b>${escapeHTML(data.category || "Other")}</b>
 
 <p>
 ${escapeHTML(data.description || "")}
 </p>
 
 <p class="small">
-
 📍 ${escapeHTML(data.location || "Not specified")}
-
 </p>
 
 <p class="small">
-
 Status:
-
 <span class="status-btn ${statusClass}">
 ${escapeHTML(status)}
 </span>
-
 </p>
 
 `;
@@ -1645,45 +1638,29 @@ item.className="item";
 item.innerHTML=`
 
 <p class="author">
-
 👤 Reported by:
-
-<b>
-${escapeHTML(data.userName || "Nayavans user")}
-</b>
-
+<b>${escapeHTML(data.userName || "Nayavans user")}</b>
 </p>
 
-<b>
-${escapeHTML(data.category)}
-</b>
+<b>${escapeHTML(data.category || "Other")}</b>
 
 <p>
-${escapeHTML(data.description)}
+${escapeHTML(data.description || "")}
 </p>
 
 <p class="small">
-
-📍 ${escapeHTML(data.location)}
-
+📍 ${escapeHTML(data.location || "Not specified")}
 </p>
 
 <p class="small">
-
 Status:
-
-<b>
-${escapeHTML(data.status || "Submitted")}
-</b>
-
+<b>${escapeHTML(data.status || "Submitted")}</b>
 </p>
 
 <button
 class="delete"
 onclick="deleteReport('${data.id}')">
-
 🗑️ Delete
-
 </button>
 
 `;
@@ -1792,7 +1769,11 @@ return;
 
 }
 
-msg.textContent="Submitting proposal...";
+msg.textContent=
+editingProposalId
+?"Updating proposal..."
+:"Submitting proposal...";
+
 msg.className="small";
 
 try{
@@ -1801,6 +1782,26 @@ const name=currentProfile && currentProfile.name
 ?currentProfile.name
 :user.email;
 
+if(editingProposalId){
+
+await db.collection("proposals")
+.doc(editingProposalId)
+.update({
+
+title:title,
+description:description,
+category:category,
+updatedAt:
+firebase.firestore.FieldValue.serverTimestamp(),
+updatedBy:user.uid
+
+});
+
+msg.textContent=
+"Proposal updated successfully.";
+
+}else{
+
 await db.collection("proposals").add({
 
 title:title,
@@ -1808,28 +1809,38 @@ description:description,
 category:category,
 userId:user.uid,
 userName:name,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
 msg.textContent=
 "Proposal submitted successfully!";
 
+}
+
 msg.className="success";
 
-document.getElementById("proposalTitle").value="";
-document.getElementById("proposalDesc").value="";
+clearProposalForm();
+
+await loadProposals();
+
+if(currentRole==="leader"){
+await loadLeaderPanel();
+}
 
 setTimeout(function(){
+
 show("proposals");
-},700);
+
+},500);
 
 }catch(error){
 
 console.error(error);
 
 msg.textContent=
-"Unable to submit proposal. Please try again.";
+"Unable to save proposal. Please try again.";
 
 msg.className="error";
 
@@ -1874,22 +1885,36 @@ const item=document.createElement("div");
 
 item.className="item";
 
-let deleteButton="";
+let adminButtons="";
 
 if(
 currentRole==="leader" ||
 data.userId===auth.currentUser.uid
 ){
 
-deleteButton=`
+adminButtons=`
+
+<div class="admin-actions">
+
+${
+currentRole==="leader"
+?`
+<button
+class="edit"
+onclick="editProposal('${doc.id}')">
+✏️ Edit
+</button>
+`
+:""
+}
 
 <button
 class="delete"
 onclick="deleteProposal('${doc.id}')">
-
-🗑️ Delete Proposal
-
+🗑️ Delete
 </button>
+
+</div>
 
 `;
 
@@ -1898,25 +1923,21 @@ onclick="deleteProposal('${doc.id}')">
 item.innerHTML=`
 
 <b>
-${escapeHTML(data.title)}
+${escapeHTML(data.title || "Untitled Proposal")}
 </b>
 
 <p class="small">
-${escapeHTML(data.description)}
+${escapeHTML(data.description || "")}
 </p>
 
 <p class="small">
-
 Category:
 ${escapeHTML(data.category || "Other")}
-
 </p>
 
 <p class="author">
-
 Submitted by:
 ${escapeHTML(data.userName || "Nayavans user")}
-
 </p>
 
 <div class="proposal-actions">
@@ -1924,25 +1945,19 @@ ${escapeHTML(data.userName || "Nayavans user")}
 <button
 class="action yes"
 onclick="vote('${doc.id}','support',this)">
-
 👍 Support
-
 </button>
 
 <button
 class="action no"
 onclick="vote('${doc.id}','against',this)">
-
 👎 Don't Support
-
 </button>
 
 <button
 class="action maybe"
 onclick="vote('${doc.id}','discussion',this)">
-
 🤔 Need Discussion
-
 </button>
 
 </div>
@@ -1950,12 +1965,10 @@ onclick="vote('${doc.id}','discussion',this)">
 <p
 class="vote-result"
 id="result-${doc.id}">
-
 Loading community feedback...
-
 </p>
 
-${deleteButton}
+${adminButtons}
 
 `;
 
@@ -1974,6 +1987,106 @@ list.innerHTML=
 '<p class="error">Unable to load proposals. Please try again.</p>';
 
 }
+
+}
+
+
+/* EDIT PROPOSAL */
+
+async function editProposal(proposalId){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+try{
+
+const snap=
+await db.collection("proposals")
+.doc(proposalId)
+.get();
+
+if(!snap.exists){
+
+alert("Proposal not found.");
+return;
+
+}
+
+const data=snap.data();
+
+editingProposalId=proposalId;
+
+document.getElementById("proposalTitle").value=
+data.title || "";
+
+document.getElementById("proposalDesc").value=
+data.description || "";
+
+document.getElementById("proposalCategory").value=
+data.category || "Other / अन्य";
+
+document.getElementById("proposalFormHeading").textContent=
+"✏️ Edit Proposal";
+
+document.getElementById("proposalSaveButton").textContent=
+"Update Proposal";
+
+document.getElementById("proposalCancelButton")
+.classList.remove("hidden");
+
+document.getElementById("proposalMsg").textContent="";
+
+show("newProposal");
+
+}catch(error){
+
+console.error(error);
+
+alert("Unable to open proposal for editing.");
+
+}
+
+}
+
+
+/* CLEAR PROPOSAL FORM */
+
+function clearProposalForm(){
+
+editingProposalId=null;
+
+document.getElementById("proposalTitle").value="";
+
+document.getElementById("proposalDesc").value="";
+
+document.getElementById("proposalCategory").value=
+"Road / सड़क";
+
+document.getElementById("proposalFormHeading").textContent=
+"➕ Submit a Proposal";
+
+document.getElementById("proposalSaveButton").textContent=
+"Submit Proposal / प्रस्ताव दें";
+
+document.getElementById("proposalCancelButton")
+.classList.add("hidden");
+
+document.getElementById("proposalMsg").textContent="";
+
+}
+
+
+/* CANCEL PROPOSAL EDIT */
+
+function cancelProposalEdit(){
+
+clearProposalForm();
+
+show("proposals");
 
 }
 
@@ -2127,7 +2240,8 @@ await voteRef.set({
 
 choice:choice,
 userId:user.uid,
-createdAt:firebase.firestore.FieldValue.serverTimestamp()
+createdAt:
+firebase.firestore.FieldValue.serverTimestamp()
 
 });
 
@@ -2403,17 +2517,13 @@ adminButtons=`
 <button
 class="edit"
 onclick="editProject('${doc.id}')">
-
 ✏️ Edit
-
 </button>
 
 <button
 class="delete"
 onclick="deleteProject('${doc.id}')">
-
 🗑️ Delete
-
 </button>
 
 </div>
@@ -2543,17 +2653,13 @@ adminButtons=`
 <button
 class="edit"
 onclick="editAnnouncement('${doc.id}')">
-
 ✏️ Edit
-
 </button>
 
 <button
 class="delete"
 onclick="deleteAnnouncement('${doc.id}')">
-
 🗑️ Delete
-
 </button>
 
 </div>
@@ -2649,34 +2755,38 @@ item.className="item";
 item.innerHTML=`
 
 <b>
-${escapeHTML(data.title)}
+${escapeHTML(data.title || "Untitled Proposal")}
 </b>
 
 <p class="small">
-${escapeHTML(data.description)}
+${escapeHTML(data.description || "")}
 </p>
 
 <p class="small">
-
 Category:
 ${escapeHTML(data.category || "Other")}
-
 </p>
 
 <p class="author">
-
 Submitted by:
 ${escapeHTML(data.userName || "Nayavans user")}
-
 </p>
+
+<div class="admin-actions">
+
+<button
+class="edit"
+onclick="editProposal('${doc.id}')">
+✏️ Edit Proposal
+</button>
 
 <button
 class="delete"
 onclick="leaderDeleteProposal('${doc.id}')">
-
 🗑️ Delete Proposal
-
 </button>
+
+</div>
 
 `;
 
@@ -2863,6 +2973,7 @@ newStatus
 );
 
 await loadLeaderReports();
+await loadVillageReports();
 
 }catch(error){
 
@@ -2900,8 +3011,8 @@ await db.collection("proposals")
 
 alert("Proposal deleted by leader.");
 
-loadLeaderPanel();
-loadProposals();
+await loadLeaderPanel();
+await loadProposals();
 
 }catch(error){
 
@@ -3061,7 +3172,10 @@ document.getElementById("announcementMsg").textContent="";
 
 show("leaderPanel");
 
-window.scrollTo(0,document.getElementById("announcementTitle").offsetTop);
+window.scrollTo(
+0,
+document.getElementById("announcementTitle").offsetTop
+);
 
 }catch(error){
 
