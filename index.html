@@ -202,6 +202,17 @@ cursor:pointer;
 margin-top:8px
 }
 
+.cancel-edit{
+border:0;
+background:#eee;
+color:#444;
+border-radius:8px;
+padding:9px 12px;
+font-weight:bold;
+cursor:pointer;
+margin-top:8px
+}
+
 .status-btn{
 border:0;
 border-radius:8px;
@@ -359,6 +370,13 @@ padding:5px 9px;
 border-radius:12px;
 font-size:12px;
 font-weight:bold
+}
+
+.admin-actions{
+margin-top:10px;
+display:flex;
+gap:6px;
+flex-wrap:wrap
 }
 
 nav{
@@ -809,7 +827,7 @@ Loading proposals...
 </select>
 
 <button class="submit" onclick="submitProposal()">
-Submit Proposal / प्रस्ताव भेजें
+Submit Proposal / प्रस्ताव दें
 </button>
 
 <p id="proposalMsg"></p>
@@ -950,7 +968,13 @@ Loading reports...
 
 </div>
 
-<h3>📢 Add Announcement</h3>
+<!-- ANNOUNCEMENT MANAGEMENT -->
+
+<h3>📢 Manage Announcements</h3>
+
+<div id="announcementFormTitle">
+<h4>Add Announcement</h4>
+</div>
 
 <label>Title</label>
 
@@ -960,13 +984,26 @@ Loading reports...
 
 <textarea id="announcementText" rows="4" placeholder="Write announcement..."></textarea>
 
-<button class="submit" onclick="leaderAddAnnouncement()">
+<button class="submit" id="announcementSaveButton" onclick="leaderAddAnnouncement()">
 Publish Announcement
+</button>
+
+<button
+id="announcementCancelButton"
+class="cancel-edit hidden"
+onclick="cancelAnnouncementEdit()">
+Cancel Edit
 </button>
 
 <p id="announcementMsg"></p>
 
-<h3>🏗️ Add Development Work</h3>
+<!-- DEVELOPMENT MANAGEMENT -->
+
+<h3>🏗️ Manage Development Work</h3>
+
+<div id="projectFormTitle">
+<h4>Add Development Work</h4>
+</div>
 
 <label>Project Name</label>
 
@@ -990,8 +1027,15 @@ Publish Announcement
 
 <input id="projectProgress" type="number" min="0" max="100" value="0">
 
-<button class="submit" onclick="leaderAddProject()">
+<button class="submit" id="projectSaveButton" onclick="leaderAddProject()">
 Publish Development Work
+</button>
+
+<button
+id="projectCancelButton"
+class="cancel-edit hidden"
+onclick="cancelProjectEdit()">
+Cancel Edit
 </button>
 
 <p id="projectMsg"></p>
@@ -1059,40 +1103,34 @@ let loginMode=false;
 let currentRole="user";
 let currentProfile=null;
 
+let editingAnnouncementId=null;
+let editingProjectId=null;
+
 
 /* NAVIGATION */
 
 function show(id){
 
 if(!auth.currentUser && id!=="auth"){
-
 showAuth();
 return;
-
 }
 
 if(id==="leaderPanel" && currentRole!=="leader"){
-
 alert("Leader access only.");
 show("home");
 return;
-
 }
 
 document.querySelectorAll(".section").forEach(function(section){
-
 section.classList.remove("active");
-
 });
 
 const selected=document.getElementById(id);
 
 if(selected){
-
 selected.classList.add("active");
-
 window.scrollTo(0,0);
-
 }
 
 if(id==="proposals")loadProposals();
@@ -1115,9 +1153,7 @@ document.body.classList.remove("logged-in");
 document.body.classList.add("logged-out");
 
 document.querySelectorAll(".section").forEach(function(section){
-
 section.classList.remove("active");
-
 });
 
 document.getElementById("auth").classList.add("active");
@@ -1135,9 +1171,7 @@ document.body.classList.remove("logged-out");
 document.body.classList.add("logged-in");
 
 document.querySelectorAll(".section").forEach(function(section){
-
 section.classList.remove("active");
-
 });
 
 document.getElementById("home").classList.add("active");
@@ -1488,15 +1522,11 @@ const status=data.status || "Submitted";
 let statusClass="status-submitted";
 
 if(status==="In Progress"){
-
 statusClass="status-progress";
-
 }
 
 if(status==="Resolved"){
-
 statusClass="status-resolved";
-
 }
 
 item.innerHTML=`
@@ -1589,10 +1619,8 @@ let reports=[];
 snapshot.forEach(function(doc){
 
 reports.push({
-
 id:doc.id,
 ...doc.data()
-
 });
 
 });
@@ -1793,9 +1821,7 @@ document.getElementById("proposalTitle").value="";
 document.getElementById("proposalDesc").value="";
 
 setTimeout(function(){
-
 show("proposals");
-
 },700);
 
 }catch(error){
@@ -2000,9 +2026,7 @@ alert("Proposal deleted successfully.");
 loadProposals();
 
 if(currentRole==="leader"){
-
 loadLeaderPanel();
-
 }
 
 }catch(error){
@@ -2214,7 +2238,6 @@ const data=profile.exists
 :{};
 
 const name=data.name || user.email;
-
 const role=data.role || "user";
 
 document.getElementById("profileName").textContent=name;
@@ -2369,10 +2392,40 @@ const item=document.createElement("div");
 
 item.className="item";
 
+let adminButtons="";
+
+if(currentRole==="leader"){
+
+adminButtons=`
+
+<div class="admin-actions">
+
+<button
+class="edit"
+onclick="editProject('${doc.id}')">
+
+✏️ Edit
+
+</button>
+
+<button
+class="delete"
+onclick="deleteProject('${doc.id}')">
+
+🗑️ Delete
+
+</button>
+
+</div>
+
+`;
+
+}
+
 item.innerHTML=`
 
 <b>
-${escapeHTML(data.name)}
+${escapeHTML(data.name || "Development Work")}
 </b>
 
 <p class="small">
@@ -2396,6 +2449,8 @@ style="width:${progress}%">
 <p>
 ${progress}% complete
 </p>
+
+${adminButtons}
 
 `;
 
@@ -2477,20 +2532,52 @@ const item=document.createElement("div");
 
 item.className="item";
 
+let adminButtons="";
+
+if(currentRole==="leader"){
+
+adminButtons=`
+
+<div class="admin-actions">
+
+<button
+class="edit"
+onclick="editAnnouncement('${doc.id}')">
+
+✏️ Edit
+
+</button>
+
+<button
+class="delete"
+onclick="deleteAnnouncement('${doc.id}')">
+
+🗑️ Delete
+
+</button>
+
+</div>
+
+`;
+
+}
+
 item.innerHTML=`
 
 <b>
-${escapeHTML(data.title)}
+${escapeHTML(data.title || "Announcement")}
 </b>
 
 <p>
-${escapeHTML(data.text)}
+${escapeHTML(data.text || "")}
 </p>
 
 <p class="author">
 Posted by
 ${escapeHTML(data.userName || "Nayavans Leader")}
 </p>
+
+${adminButtons}
 
 `;
 
@@ -2547,9 +2634,7 @@ if(snapshot.empty){
 list.innerHTML=
 '<p class="empty">No proposals available.</p>';
 
-return;
-
-}
+}else{
 
 list.innerHTML="";
 
@@ -2598,6 +2683,8 @@ onclick="leaderDeleteProposal('${doc.id}')">
 list.appendChild(item);
 
 });
+
+}
 
 }catch(error){
 
@@ -2790,7 +2877,7 @@ alert(
 }
 
 
-/* LEADER DELETE */
+/* LEADER DELETE PROPOSAL */
 
 async function leaderDeleteProposal(proposalId){
 
@@ -2829,7 +2916,7 @@ alert(
 }
 
 
-/* LEADER ADD ANNOUNCEMENT */
+/* ADD OR UPDATE ANNOUNCEMENT */
 
 async function leaderAddAnnouncement(){
 
@@ -2864,6 +2951,26 @@ return;
 
 try{
 
+if(editingAnnouncementId){
+
+await db.collection("announcements")
+.doc(editingAnnouncementId)
+.update({
+
+title:title,
+text:text,
+updatedAt:
+firebase.firestore.FieldValue.serverTimestamp(),
+updatedBy:
+auth.currentUser.uid
+
+});
+
+msg.textContent=
+"Announcement updated successfully.";
+
+}else{
+
 await db.collection("announcements").add({
 
 title:title,
@@ -2884,20 +2991,20 @@ firebase.firestore.FieldValue.serverTimestamp()
 msg.textContent=
 "Announcement published successfully.";
 
+}
+
 msg.className="success";
 
-document.getElementById("announcementTitle").value="";
+clearAnnouncementForm();
 
-document.getElementById("announcementText").value="";
-
-loadAnnouncements();
+await loadAnnouncements();
 
 }catch(error){
 
 console.error(error);
 
 msg.textContent=
-"Unable to publish announcement.";
+"Unable to save announcement. Check Firestore rules.";
 
 msg.className="error";
 
@@ -2906,7 +3013,153 @@ msg.className="error";
 }
 
 
-/* LEADER ADD PROJECT */
+/* EDIT ANNOUNCEMENT */
+
+async function editAnnouncement(announcementId){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+try{
+
+const snap=
+await db.collection("announcements")
+.doc(announcementId)
+.get();
+
+if(!snap.exists){
+
+alert("Announcement not found.");
+return;
+
+}
+
+const data=snap.data();
+
+editingAnnouncementId=announcementId;
+
+document.getElementById("announcementTitle").value=
+data.title || "";
+
+document.getElementById("announcementText").value=
+data.text || "";
+
+document.getElementById("announcementFormTitle").innerHTML=
+"<h4>✏️ Edit Announcement</h4>";
+
+document.getElementById("announcementSaveButton").textContent=
+"Update Announcement";
+
+document.getElementById("announcementCancelButton")
+.classList.remove("hidden");
+
+document.getElementById("announcementMsg").textContent="";
+
+show("leaderPanel");
+
+window.scrollTo(0,document.getElementById("announcementTitle").offsetTop);
+
+}catch(error){
+
+console.error(error);
+
+alert("Unable to open announcement for editing.");
+
+}
+
+}
+
+
+/* DELETE ANNOUNCEMENT */
+
+async function deleteAnnouncement(announcementId){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+if(!confirm(
+"Delete this announcement permanently?"
+))return;
+
+try{
+
+await db.collection("announcements")
+.doc(announcementId)
+.delete();
+
+alert("Announcement deleted successfully.");
+
+if(editingAnnouncementId===announcementId){
+
+clearAnnouncementForm();
+
+}
+
+await loadAnnouncements();
+
+if(
+document.getElementById("leaderPanel").classList.contains("active")
+){
+
+await loadLeaderPanel();
+
+}
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to delete announcement. Check Firestore rules."
+);
+
+}
+
+}
+
+
+/* CLEAR ANNOUNCEMENT FORM */
+
+function clearAnnouncementForm(){
+
+editingAnnouncementId=null;
+
+document.getElementById("announcementTitle").value="";
+
+document.getElementById("announcementText").value="";
+
+document.getElementById("announcementFormTitle").innerHTML=
+"<h4>Add Announcement</h4>";
+
+document.getElementById("announcementSaveButton").textContent=
+"Publish Announcement";
+
+document.getElementById("announcementCancelButton")
+.classList.add("hidden");
+
+document.getElementById("announcementMsg").textContent="";
+
+}
+
+
+/* CANCEL ANNOUNCEMENT EDIT */
+
+function cancelAnnouncementEdit(){
+
+clearAnnouncementForm();
+
+}
+
+
+/* ADD OR UPDATE DEVELOPMENT PROJECT */
 
 async function leaderAddProject(){
 
@@ -2961,6 +3214,30 @@ return;
 
 try{
 
+if(editingProjectId){
+
+await db.collection("development")
+.doc(editingProjectId)
+.update({
+
+name:name,
+description:desc,
+status:status,
+progress:progress,
+
+updatedAt:
+firebase.firestore.FieldValue.serverTimestamp(),
+
+updatedBy:
+auth.currentUser.uid
+
+});
+
+msg.textContent=
+"Development work updated successfully.";
+
+}else{
+
 await db.collection("development").add({
 
 name:name,
@@ -2985,26 +3262,179 @@ firebase.firestore.FieldValue.serverTimestamp()
 msg.textContent=
 "Development work published successfully.";
 
+}
+
 msg.className="success";
 
-document.getElementById("projectName").value="";
+clearProjectForm();
 
-document.getElementById("projectDesc").value="";
-
-document.getElementById("projectProgress").value="0";
-
-loadDevelopment();
+await loadDevelopment();
 
 }catch(error){
 
 console.error(error);
 
 msg.textContent=
-"Unable to publish development work.";
+"Unable to save development work. Check Firestore rules.";
 
 msg.className="error";
 
 }
+
+}
+
+
+/* EDIT DEVELOPMENT PROJECT */
+
+async function editProject(projectId){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+try{
+
+const snap=
+await db.collection("development")
+.doc(projectId)
+.get();
+
+if(!snap.exists){
+
+alert("Development work not found.");
+return;
+
+}
+
+const data=snap.data();
+
+editingProjectId=projectId;
+
+document.getElementById("projectName").value=
+data.name || "";
+
+document.getElementById("projectDesc").value=
+data.description || "";
+
+document.getElementById("projectStatus").value=
+data.status || "Planned";
+
+document.getElementById("projectProgress").value=
+Number(data.progress || 0);
+
+document.getElementById("projectFormTitle").innerHTML=
+"<h4>✏️ Edit Development Work</h4>";
+
+document.getElementById("projectSaveButton").textContent=
+"Update Development Work";
+
+document.getElementById("projectCancelButton")
+.classList.remove("hidden");
+
+document.getElementById("projectMsg").textContent="";
+
+show("leaderPanel");
+
+}catch(error){
+
+console.error(error);
+
+alert("Unable to open development work for editing.");
+
+}
+
+}
+
+
+/* DELETE DEVELOPMENT PROJECT */
+
+async function deleteProject(projectId){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+if(!confirm(
+"Delete this development work permanently?"
+))return;
+
+try{
+
+await db.collection("development")
+.doc(projectId)
+.delete();
+
+alert("Development work deleted successfully.");
+
+if(editingProjectId===projectId){
+
+clearProjectForm();
+
+}
+
+await loadDevelopment();
+
+if(
+document.getElementById("leaderPanel").classList.contains("active")
+){
+
+await loadLeaderPanel();
+
+}
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to delete development work. Check Firestore rules."
+);
+
+}
+
+}
+
+
+/* CLEAR PROJECT FORM */
+
+function clearProjectForm(){
+
+editingProjectId=null;
+
+document.getElementById("projectName").value="";
+
+document.getElementById("projectDesc").value="";
+
+document.getElementById("projectStatus").value=
+"Planned";
+
+document.getElementById("projectProgress").value="0";
+
+document.getElementById("projectFormTitle").innerHTML=
+"<h4>Add Development Work</h4>";
+
+document.getElementById("projectSaveButton").textContent=
+"Publish Development Work";
+
+document.getElementById("projectCancelButton")
+.classList.add("hidden");
+
+document.getElementById("projectMsg").textContent="";
+
+}
+
+
+/* CANCEL PROJECT EDIT */
+
+function cancelProjectEdit(){
+
+clearProjectForm();
 
 }
 
