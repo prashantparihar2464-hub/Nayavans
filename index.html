@@ -8,57 +8,405 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#f3f7f4;color:#17351f}
-.app{max-width:480px;margin:auto;min-height:100vh;background:white;padding-bottom:75px}
-header{background:#176b3a;color:white;padding:20px;text-align:center}
-header h1{margin:8px 0 3px;font:32px Georgia,serif}
-header p{margin:5px 0;font-weight:bold}
-.lang{border:0;border-radius:18px;padding:8px 12px;background:white;color:#176b3a;font-weight:bold}
-.userbar{background:#eaf5ec;padding:10px 16px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
-.logout,.submit,.delete,.action{border:0;border-radius:9px;padding:10px 13px;font-weight:bold;cursor:pointer}
-.logout,.submit{background:#176b3a;color:white}
-.hero{padding:20px;background:#eaf5ec}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
-.card,.item{border:1px solid #dce7de;border-radius:15px;background:white;box-shadow:0 2px 10px #0000000a}
-.card{padding:16px;cursor:pointer}
-.card b{display:block;margin:8px 0 4px}
-.icon{font-size:28px}
-.full{margin:0 16px 16px}
-.section{display:none;padding:16px}
-.section.active{display:block}
-.back{border:0;background:none;color:#176b3a;font-size:16px;padding:4px 0 14px}
-.item{padding:14px;margin:10px 0}
-.small{font-size:13px;color:#68756c}
-input,textarea,select{width:100%;padding:12px;border:1px solid #cbd8ce;border-radius:10px;margin:7px 0 12px;font:inherit}
-.action{margin:4px}.yes{background:#e5f4e9;color:#176b3a}.no{background:#fde9e7;color:#a83228}.maybe{background:#fff3d8;color:#855c00}
-.action:disabled{opacity:.5}
-.delete{background:#fde9e7;color:#a83228}
-.progress{height:9px;background:#e5ebe6;border-radius:9px;overflow:hidden}
-.bar{height:100%;background:#176b3a}
-.notice{background:#fff8e5;border-left:4px solid #dda000;padding:12px;border-radius:8px;margin:10px 16px}
-.authbox{padding:20px 16px}.auth-intro{text-align:center;padding:10px 5px 20px}.auth-intro .big{font-size:48px}
-.auth-switch{text-align:center;margin-top:15px}.linkbtn{border:0;background:none;color:#176b3a;font-weight:bold;cursor:pointer}
-.error{color:#a83228;font-size:13px}.success{color:#176b3a;font-size:13px}
-.author{font-size:12px;color:#68756c;margin-top:8px}.empty{text-align:center;padding:20px;color:#68756c}
-.profile-card{text-align:center;padding:20px;background:#eaf5ec;border-radius:15px;margin-bottom:15px}
-.avatar{font-size:50px}.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
-.stat{background:#f3f7f4;padding:15px;border-radius:12px;text-align:center}
-.stat b{font-size:24px;display:block;color:#176b3a}
-.leader{background:#fff3d8;border:1px solid #e0b94c;padding:14px;border-radius:12px;margin-bottom:15px}
-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:9px 2px;z-index:10}
-nav button{border:0;background:none;color:#46544a;font-size:12px;cursor:pointer}
-nav .plus{font-size:22px;color:#176b3a}
-footer{text-align:center;padding:18px;color:#66736a;font-size:12px}
 
-body.logged-out .app{padding-bottom:0}
-body.logged-out nav,body.logged-out #userBar,
-body.logged-out #home,body.logged-out #account,
-body.logged-out #myReports,body.logged-out #report,
-body.logged-out #proposals,body.logged-out #newProposal,
-body.logged-out #development,body.logged-out #announcements,
-body.logged-out #progress,body.logged-out #leaderPanel{display:none!important}
-body.logged-in #auth{display:none!important}
-body.logged-out #auth{display:block}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f3f7f4;
+color:#17351f
+}
+
+.app{
+max-width:480px;
+margin:auto;
+min-height:100vh;
+background:#fff;
+padding-bottom:78px
+}
+
+header{
+background:#176b3a;
+color:#fff;
+padding:18px;
+text-align:center;
+position:relative
+}
+
+header h1{
+margin:8px 0 3px;
+font:32px Georgia,serif
+}
+
+header p{
+margin:5px 0;
+font-weight:bold
+}
+
+.lang{
+border:0;
+border-radius:18px;
+padding:8px 12px;
+background:#fff;
+color:#176b3a;
+font-weight:bold
+}
+
+.userbar{
+background:#eaf5ec;
+padding:10px 16px;
+font-size:14px;
+display:flex;
+justify-content:space-between;
+align-items:center
+}
+
+.logout{
+border:0;
+background:#176b3a;
+color:#fff;
+padding:7px 10px;
+border-radius:8px
+}
+
+.hero{
+padding:20px;
+background:#eaf5ec
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+padding:16px
+}
+
+.card,.item{
+border:1px solid #dce7de;
+border-radius:15px;
+background:#fff;
+box-shadow:0 2px 10px #0000000a
+}
+
+.card{
+padding:16px;
+cursor:pointer
+}
+
+.card b{
+display:block;
+margin:8px 0 4px
+}
+
+.icon{
+font-size:28px
+}
+
+.full{
+margin:0 16px 16px
+}
+
+.section{
+display:none;
+padding:16px
+}
+
+.section.active{
+display:block
+}
+
+.back{
+border:0;
+background:none;
+color:#176b3a;
+font-size:16px;
+padding:4px 0 14px
+}
+
+.item{
+padding:14px;
+margin:10px 0
+}
+
+.small{
+font-size:13px;
+color:#68756c
+}
+
+input,textarea,select{
+width:100%;
+padding:12px;
+border:1px solid #cbd8ce;
+border-radius:10px;
+margin:7px 0 12px;
+font:inherit
+}
+
+.submit{
+width:100%;
+background:#176b3a;
+color:#fff;
+border:0;
+padding:13px;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer
+}
+
+.action{
+border:0;
+border-radius:10px;
+padding:11px;
+margin:4px;
+cursor:pointer
+}
+
+.action:disabled{
+opacity:.55;
+cursor:not-allowed
+}
+
+.yes{
+background:#e5f4e9;
+color:#176b3a
+}
+
+.no{
+background:#fde9e7;
+color:#a83228
+}
+
+.maybe{
+background:#fff3d8;
+color:#855c00
+}
+
+.delete{
+border:0;
+background:#fde9e7;
+color:#a83228;
+border-radius:8px;
+padding:9px 12px;
+font-weight:bold;
+cursor:pointer;
+margin-top:8px
+}
+
+.edit{
+border:0;
+background:#eaf5ec;
+color:#176b3a;
+border-radius:8px;
+padding:9px 12px;
+font-weight:bold;
+cursor:pointer;
+margin-top:8px
+}
+
+.progress{
+height:9px;
+background:#e5ebe6;
+border-radius:9px;
+overflow:hidden
+}
+
+.bar{
+height:100%;
+background:#176b3a
+}
+
+.notice{
+background:#fff8e5;
+border-left:4px solid #dda000;
+padding:12px;
+border-radius:8px;
+margin:10px 16px
+}
+
+.authbox{
+padding:20px 16px;
+margin-top:10px
+}
+
+.auth-intro{
+text-align:center;
+padding:10px 5px 20px
+}
+
+.auth-intro .big{
+font-size:48px
+}
+
+.auth-switch{
+text-align:center;
+margin-top:15px
+}
+
+.linkbtn{
+border:0;
+background:none;
+color:#176b3a;
+font-weight:bold;
+cursor:pointer
+}
+
+.error{
+color:#a83228;
+font-size:13px
+}
+
+.success{
+color:#176b3a;
+font-size:13px
+}
+
+.proposal-actions{
+margin-top:10px
+}
+
+.vote-result{
+font-size:13px;
+color:#68756c;
+margin-top:10px
+}
+
+.author{
+font-size:12px;
+color:#68756c;
+margin-top:8px
+}
+
+.empty{
+text-align:center;
+padding:20px;
+color:#68756c
+}
+
+.profile-card{
+text-align:center;
+padding:20px;
+background:#eaf5ec;
+border-radius:15px;
+margin-bottom:15px
+}
+
+.avatar{
+font-size:50px
+}
+
+.stat-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px
+}
+
+.stat{
+background:#f3f7f4;
+padding:15px;
+border-radius:12px;
+text-align:center
+}
+
+.stat b{
+font-size:24px;
+display:block;
+color:#176b3a
+}
+
+.leader-box{
+background:#f0e9ff;
+border:1px solid #d7c8f2;
+border-radius:15px;
+padding:16px;
+margin-bottom:15px
+}
+
+.leader-title{
+color:#5c378d;
+font-weight:bold;
+font-size:18px
+}
+
+.leader-badge{
+display:inline-block;
+background:#5c378d;
+color:#fff;
+padding:5px 9px;
+border-radius:12px;
+font-size:12px;
+font-weight:bold
+}
+
+nav{
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:min(480px,100%);
+background:#fff;
+border-top:1px solid #ddd;
+display:flex;
+justify-content:space-around;
+padding:9px 2px;
+z-index:10
+}
+
+nav button{
+border:0;
+background:none;
+color:#46544a;
+font-size:12px;
+cursor:pointer
+}
+
+nav .plus{
+font-size:22px;
+color:#176b3a
+}
+
+footer{
+text-align:center;
+padding:18px;
+color:#66736a;
+font-size:12px
+}
+
+body.logged-out .app{
+padding-bottom:0
+}
+
+body.logged-out nav{
+display:none
+}
+
+body.logged-out #userBar{
+display:none!important
+}
+
+body.logged-out #home,
+body.logged-out #account,
+body.logged-out #myReports,
+body.logged-out #report,
+body.logged-out #proposals,
+body.logged-out #newProposal,
+body.logged-out #development,
+body.logged-out #announcements,
+body.logged-out #progress,
+body.logged-out #leaderPanel{
+display:none!important
+}
+
+body.logged-in #auth{
+display:none!important
+}
+
+body.logged-out #auth{
+display:block
+}
+
+.hidden{
+display:none!important
+}
 </style>
 </head>
 
@@ -67,48 +415,97 @@ body.logged-out #auth{display:block}
 <div class="app">
 
 <header>
-<button class="lang" onclick="toggleLang()">हिंदी / EN</button>
+
+<button class="lang" onclick="toggleLang()">
+हिंदी / EN
+</button>
+
 <h1>Nayavans</h1>
+
 <p id="tag">Your Village, Your Responsibility</p>
+
 </header>
 
 <div id="userBar" class="userbar" style="display:none">
-<span>👤 <b id="userName"></b></span>
-<button class="logout" onclick="logout()">Logout</button>
+
+<span>
+👤 <b id="userName"></b>
+</span>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
 </div>
 
 <!-- AUTH -->
 
 <div id="auth" class="section active">
+
 <div class="authbox">
 
 <div class="auth-intro">
+
 <div class="big">🏡</div>
+
 <h2 id="authTitle">👤 Create Account</h2>
-<p class="small">Join your village community and help make it better.</p>
+
+<p class="small">
+Join your village community and help make it better.
+</p>
+
 </div>
 
 <div id="nameBox">
+
 <label>Name / नाम</label>
-<input id="name" placeholder="Enter your name">
+
+<input
+id="name"
+placeholder="Enter your name">
+
 </div>
 
 <label>Email / ईमेल</label>
-<input id="email" type="email" placeholder="Enter your email">
+
+<input
+id="email"
+type="email"
+placeholder="Enter your email">
 
 <label>Password / पासवर्ड</label>
-<input id="password" type="password" placeholder="Enter your password">
 
-<button class="submit" id="authButton" onclick="handleAuth()">Create Account</button>
+<input
+id="password"
+type="password"
+placeholder="Enter your password">
+
+<button
+class="submit"
+id="authButton"
+onclick="handleAuth()">
+Create Account
+</button>
 
 <p id="authMsg"></p>
 
 <div class="auth-switch">
-<span id="switchText">Already have an account?</span>
-<button class="linkbtn" onclick="toggleAuthMode()" id="switchButton">Sign In</button>
+
+<span id="switchText">
+Already have an account?
+</span>
+
+<button
+class="linkbtn"
+onclick="toggleAuthMode()"
+id="switchButton">
+Sign In
+</button>
+
 </div>
 
 </div>
+
 </div>
 
 <!-- HOME -->
@@ -116,64 +513,116 @@ body.logged-out #auth{display:block}
 <div id="home" class="section">
 
 <div class="hero">
+
 <h2 id="welcome">Welcome to Nayavans</h2>
-<p id="sub">Let's work together for a better village.</p>
-<p class="small">Nayavans, Pinahat, Agra, Uttar Pradesh — <b>283123</b></p>
+
+<p id="sub">
+Let's work together for a better village.
+</p>
+
+<p class="small">
+Nayavans, Pinahat, Agra, Uttar Pradesh —
+<b>283123</b>
+</p>
+
+</div>
+
+<div id="leaderHomeCard" class="leader-box hidden">
+
+<div class="leader-title">
+👑 Leader Authority
+</div>
+
+<p class="small">
+You are registered as the Nayavans leader. You can manage proposals, announcements and development information.
+</p>
+
+<button class="submit" onclick="show('leaderPanel')">
+Open Leader Panel
+</button>
+
 </div>
 
 <div class="grid">
 
 <div class="card" onclick="show('report')">
+
 <span class="icon">🚨</span>
+
 <b>Report a Problem</b>
+
 <span class="small">समस्या बताएं</span>
+
 </div>
 
 <div class="card" onclick="show('proposals')">
+
 <span class="icon">🗳️</span>
+
 <b>Village Proposals</b>
+
 <span class="small">ग्राम प्रस्ताव</span>
+
 </div>
 
 <div class="card" onclick="show('development')">
+
 <span class="icon">🏗️</span>
+
 <b>Development Work</b>
+
 <span class="small">विकास कार्य</span>
+
 </div>
 
 <div class="card" onclick="show('announcements')">
+
 <span class="icon">📢</span>
+
 <b>Announcements</b>
+
 <span class="small">घोषणाएं</span>
+
 </div>
 
 </div>
 
 <div class="card full" onclick="show('progress')">
+
 <span class="icon">📊</span>
+
 <b>Village Progress / गाँव की प्रगति</b>
-<p class="small">Projects, reports and community activity.</p>
+
+<p class="small">
+Projects, reports and community activity.
+</p>
+
 </div>
 
 <div class="card full" onclick="show('account')">
-<span class="icon">👤</span>
-<b>My Account / मेरा खाता</b>
-<p class="small">View your profile, reports and proposals.</p>
-</div>
 
-<div id="leaderHomeCard" class="card full" style="display:none" onclick="show('leaderPanel')">
-<span class="icon">👑</span>
-<b>Leader Panel</b>
-<p class="small">Manage village proposals, reports and announcements.</p>
+<span class="icon">👤</span>
+
+<b>My Account / मेरा खाता</b>
+
+<p class="small">
+View your profile, reports and proposals.
+</p>
+
 </div>
 
 <div class="notice">
-⚠️ Community opinions are feedback. Official Gram Sabha/legal decisions remain governed by the applicable official process.
+
+⚠️ Community opinions are feedback.
+Official Gram Sabha/legal decisions remain governed by the applicable official process.
+
 </div>
 
 <footer>
+
 Nayavans · Your Village, Your Responsibility<br>
 Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
+
 </footer>
 
 </div>
@@ -181,189 +630,383 @@ Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
 <!-- ACCOUNT -->
 
 <div id="account" class="section">
+
 <button class="back" onclick="show('home')">← Back</button>
+
 <h2>👤 My Account</h2>
 
 <div class="profile-card">
+
 <div class="avatar">👤</div>
+
 <h2 id="profileName">User</h2>
+
 <p id="profileEmail" class="small">Email</p>
 
+<p id="profileRole" class="small"></p>
+
 <div class="stat-grid">
-<div class="stat"><b id="reportCount">0</b>Reports</div>
-<div class="stat"><b id="proposalCount">0</b>Proposals</div>
-</div>
+
+<div class="stat">
+
+<b id="reportCount">0</b>
+
+Reports
+
 </div>
 
-<button class="submit" onclick="show('myReports')">🚨 My Reports</button>
+<div class="stat">
+
+<b id="proposalCount">0</b>
+
+Proposals
+
+</div>
+
+</div>
+
+</div>
+
+<button class="submit" onclick="show('myReports')">
+🚨 My Reports
+</button>
+
 <br><br>
-<button class="submit" onclick="show('proposals')">🗳️ Village Proposals</button>
+
+<button class="submit" onclick="show('proposals')">
+🗳️ Village Proposals
+</button>
+
 </div>
 
 <!-- MY REPORTS -->
 
 <div id="myReports" class="section">
+
 <button class="back" onclick="show('account')">← Back</button>
+
 <h2>🚨 My Reports</h2>
-<div id="myReportList"><p class="empty">Loading reports...</p></div>
+
+<div id="myReportList">
+<p class="empty">Loading reports...</p>
+</div>
+
 </div>
 
 <!-- REPORT -->
 
 <div id="report" class="section">
+
 <button class="back" onclick="show('home')">← Back</button>
+
 <h2>🚨 Report a Problem</h2>
 
 <label>Category / श्रेणी</label>
+
 <select id="category">
+
 <option>Road / सड़क</option>
 <option>Water / पानी</option>
 <option>Street light / स्ट्रीट लाइट</option>
 <option>Drainage / नाली</option>
 <option>Other / अन्य</option>
+
 </select>
 
 <label>Description / विवरण</label>
-<textarea id="desc" rows="4" placeholder="Describe the problem..."></textarea>
+
+<textarea
+id="desc"
+rows="4"
+placeholder="Describe the problem..."></textarea>
 
 <label>Location / स्थान</label>
-<input id="loc" placeholder="Example: Near school">
 
-<button class="submit" onclick="submitReport()">Submit Report / रिपोर्ट भेजें</button>
+<input
+id="loc"
+placeholder="Example: Near school">
+
+<button
+class="submit"
+onclick="submitReport()">
+Submit Report / रिपोर्ट भेजें
+</button>
+
 <p id="reportMsg"></p>
+
 </div>
 
 <!-- PROPOSALS -->
 
 <div id="proposals" class="section">
+
 <button class="back" onclick="show('home')">← Back</button>
+
 <h2>🗳️ Village Proposals</h2>
 
-<button class="submit" onclick="show('newProposal')">➕ Submit a Proposal / प्रस्ताव दें</button>
+<button
+class="submit"
+onclick="show('newProposal')">
+➕ Submit a Proposal / प्रस्ताव दें
+</button>
 
 <div id="proposalList">
-<p class="empty">Loading proposals...</p>
+
+<p class="empty">
+Loading proposals...
+</p>
+
 </div>
+
 </div>
 
 <!-- NEW PROPOSAL -->
 
 <div id="newProposal" class="section">
-<button class="back" onclick="show('proposals')">← Back</button>
+
+<button class="back" onclick="show('proposals')">
+← Back
+</button>
+
 <h2>➕ Submit a Proposal</h2>
 
 <label>Proposal Title / प्रस्ताव का नाम</label>
-<input id="proposalTitle" placeholder="Example: Repair village road">
+
+<input
+id="proposalTitle"
+placeholder="Example: Repair village road">
 
 <label>Description / विवरण</label>
-<textarea id="proposalDesc" rows="4" placeholder="Describe your proposal..."></textarea>
+
+<textarea
+id="proposalDesc"
+rows="4"
+placeholder="Describe your proposal..."></textarea>
 
 <label>Category / श्रेणी</label>
+
 <select id="proposalCategory">
+
 <option>Road / सड़क</option>
 <option>Water / पानी</option>
 <option>Street Light / स्ट्रीट लाइट</option>
 <option>Cleanliness / सफाई</option>
 <option>Education / शिक्षा</option>
 <option>Other / अन्य</option>
+
 </select>
 
-<button class="submit" onclick="submitProposal()">Submit Proposal / प्रस्ताव भेजें</button>
+<button
+class="submit"
+onclick="submitProposal()">
+Submit Proposal / प्रस्ताव भेजें
+</button>
+
 <p id="proposalMsg"></p>
+
 </div>
 
 <!-- DEVELOPMENT -->
 
 <div id="development" class="section">
+
 <button class="back" onclick="show('home')">← Back</button>
+
 <h2>🏗️ Development Work</h2>
 
-<div class="item">
-<b>Main Road Improvement / मुख्य सड़क सुधार</b>
-<p class="small">Status: Work in progress</p>
-<div class="progress"><div class="bar" style="width:65%"></div></div>
-<p>65% complete</p>
+<div id="developmentList">
+
+<p class="empty">Loading development work...</p>
+
 </div>
 
-<div class="item">
-<b>Street Light Project / स्ट्रीट लाइट परियोजना</b>
-<p class="small">Status: Completed</p>
-<div class="progress"><div class="bar" style="width:100%"></div></div>
-<p>100% complete</p>
-</div>
 </div>
 
 <!-- ANNOUNCEMENTS -->
 
 <div id="announcements" class="section">
+
 <button class="back" onclick="show('home')">← Back</button>
+
 <h2>📢 Announcements</h2>
 
-<div class="item">
-<b>Village Meeting / ग्राम बैठक</b>
-<p class="small">Important village meeting notices can be posted here.</p>
+<div id="announcementList">
+
+<p class="empty">Loading announcements...</p>
+
 </div>
 
-<div class="item">
-<b>Water Supply Update / पानी की सूचना</b>
-<p class="small">Updates about village services can appear here.</p>
-</div>
 </div>
 
 <!-- PROGRESS -->
 
 <div id="progress" class="section">
+
 <button class="back" onclick="show('home')">← Back</button>
+
 <h2>📊 Village Progress</h2>
 
 <div class="item">
+
 <b>Development Work</b>
-<p class="small">Main village development projects and their progress.</p>
-<div class="progress"><div class="bar" style="width:65%"></div></div>
-<p>65% overall progress</p>
+
+<p class="small">
+Village development projects and their current status.
+</p>
+
 </div>
 
 <div class="item">
+
 <b>Community Activity</b>
-<p class="small">Reports and proposals submitted by villagers.</p>
+
 <div class="stat-grid">
-<div class="stat"><b id="totalReports">0</b>Reports</div>
-<div class="stat"><b id="totalProposals">0</b>Proposals</div>
+
+<div class="stat">
+
+<b id="totalReports">0</b>
+
+Reports
+
 </div>
+
+<div class="stat">
+
+<b id="totalProposals">0</b>
+
+Proposals
+
 </div>
+
+</div>
+
+</div>
+
 </div>
 
 <!-- LEADER PANEL -->
 
 <div id="leaderPanel" class="section">
-<button class="back" onclick="show('home')">← Back</button>
 
-<div class="leader">
+<button class="back" onclick="show('home')">
+← Back
+</button>
+
 <h2>👑 Leader Panel</h2>
-<p class="small">Leader controls are available only to accounts marked as <b>leader</b>.</p>
+
+<div class="leader-box">
+
+<span class="leader-badge">
+AUTHORIZED LEADER
+</span>
+
+<p>
+Welcome, <b id="leaderName">Leader</b>.
+</p>
+
+<p class="small">
+Use this panel to manage community information. Your actions are stored in Firestore.
+</p>
+
 </div>
 
-<div class="item">
-<h3>🗳️ Proposal Management</h3>
-<p class="small">Delete proposals when necessary.</p>
-<div id="leaderProposalList">Loading...</div>
+<h3>🗳️ Manage Proposals</h3>
+
+<div id="leaderProposalList">
+<p class="empty">Loading proposals...</p>
 </div>
 
-<div class="item">
-<h3>🚨 Report Management</h3>
-<p class="small">View and manage submitted reports.</p>
-<div id="leaderReportList">Loading...</div>
-</div>
+<h3>📢 Add Announcement</h3>
+
+<label>Title</label>
+
+<input
+id="announcementTitle"
+placeholder="Announcement title">
+
+<label>Message</label>
+
+<textarea
+id="announcementText"
+rows="4"
+placeholder="Write announcement..."></textarea>
+
+<button
+class="submit"
+onclick="leaderAddAnnouncement()">
+Publish Announcement
+</button>
+
+<p id="announcementMsg"></p>
+
+<h3>🏗️ Add Development Work</h3>
+
+<label>Project Name</label>
+
+<input
+id="projectName"
+placeholder="Example: Village road repair">
+
+<label>Description</label>
+
+<textarea
+id="projectDesc"
+rows="3"
+placeholder="Describe the work..."></textarea>
+
+<label>Status</label>
+
+<select id="projectStatus">
+
+<option>Planned</option>
+<option>Work in progress</option>
+<option>Completed</option>
+
+</select>
+
+<label>Progress %</label>
+
+<input
+id="projectProgress"
+type="number"
+min="0"
+max="100"
+value="0">
+
+<button
+class="submit"
+onclick="leaderAddProject()">
+Publish Development Work
+</button>
+
+<p id="projectMsg"></p>
+
 </div>
 
 <!-- NAV -->
 
 <nav>
-<button onclick="show('home')">🏠<br>Home</button>
-<button onclick="show('report')">🚨<br>Report</button>
-<button class="plus" onclick="show('proposals')">＋</button>
-<button onclick="show('development')">🏗️<br>Work</button>
-<button onclick="show('announcements')">📢<br>News</button>
+
+<button onclick="show('home')">
+🏠<br>Home
+</button>
+
+<button onclick="show('report')">
+🚨<br>Report
+</button>
+
+<button class="plus" onclick="show('proposals')">
+＋
+</button>
+
+<button onclick="show('development')">
+🏗️<br>Work
+</button>
+
+<button onclick="show('announcements')">
+📢<br>News
+</button>
+
 </nav>
 
 </div>
@@ -373,297 +1016,626 @@ Nayavans, Pinahat, Agra, Uttar Pradesh · 283123
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
 <script>
+
 const firebaseConfig={
+
 apiKey:"AIzaSyAIhlq_-76SA_1jNjO8qtoVoYHkezdHW0w",
+
 authDomain:"nayavans.firebaseapp.com",
+
 projectId:"nayavans",
+
 storageBucket:"nayavans.firebasestorage.app",
+
 messagingSenderId:"560311864570",
+
 appId:"1:560311864570:web:60e6e6ce724146ab914d43",
+
 measurementId:"G-45JC3T7MK2"
+
 };
 
 firebase.initializeApp(firebaseConfig);
 
 const auth=firebase.auth();
+
 const db=firebase.firestore();
 
 let loginMode=false;
 let currentRole="user";
+let currentProfile=null;
+
+
+/* NAVIGATION */
 
 function show(id){
+
 if(!auth.currentUser && id!=="auth"){
+
 showAuth();
 return;
+
 }
 
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+if(id==="leaderPanel" && currentRole!=="leader"){
+
+alert("Leader access only.");
+
+show("home");
+
+return;
+
+}
+
+document.querySelectorAll(".section").forEach(function(section){
+
+section.classList.remove("active");
+
+});
 
 const selected=document.getElementById(id);
-if(selected)selected.classList.add("active");
+
+if(selected){
+
+selected.classList.add("active");
 
 window.scrollTo(0,0);
 
-if(id==="account")loadAccount();
-if(id==="myReports")loadMyReports();
-if(id==="proposals")loadProposals();
-if(id==="progress")loadCommunityStats();
-if(id==="leaderPanel")loadLeaderPanel();
 }
 
+if(id==="proposals")loadProposals();
+
+if(id==="account")loadAccount();
+
+if(id==="myReports")loadMyReports();
+
+if(id==="progress")loadCommunityStats();
+
+if(id==="development")loadDevelopment();
+
+if(id==="announcements")loadAnnouncements();
+
+if(id==="leaderPanel")loadLeaderPanel();
+
+}
+
+
+/* AUTH SCREEN */
+
 function showAuth(){
+
 document.body.classList.remove("logged-in");
 document.body.classList.add("logged-out");
 
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.querySelectorAll(".section").forEach(function(section){
+
+section.classList.remove("active");
+
+});
+
 document.getElementById("auth").classList.add("active");
+
 window.scrollTo(0,0);
+
 }
 
+
+/* HOME */
+
 function showHome(){
+
 document.body.classList.remove("logged-out");
 document.body.classList.add("logged-in");
 
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.querySelectorAll(".section").forEach(function(section){
+
+section.classList.remove("active");
+
+});
+
 document.getElementById("home").classList.add("active");
+
 window.scrollTo(0,0);
 
-if(currentRole==="leader"){
-document.getElementById("leaderHomeCard").style.display="block";
-}else{
-document.getElementById("leaderHomeCard").style.display="none";
 }
-}
+
+
+/* AUTH MODE */
 
 function toggleAuthMode(){
+
 loginMode=!loginMode;
 
-document.getElementById("authTitle").textContent=loginMode?"🔐 Sign In":"👤 Create Account";
-document.getElementById("authButton").textContent=loginMode?"Sign In":"Create Account";
-document.getElementById("nameBox").style.display=loginMode?"none":"block";
-document.getElementById("switchText").textContent=loginMode?"Don't have an account?":"Already have an account?";
-document.getElementById("switchButton").textContent=loginMode?"Create Account":"Sign In";
-document.getElementById("authMsg").textContent="";
+const title=document.getElementById("authTitle");
+const button=document.getElementById("authButton");
+const nameBox=document.getElementById("nameBox");
+const switchText=document.getElementById("switchText");
+const switchButton=document.getElementById("switchButton");
+const msg=document.getElementById("authMsg");
+
+msg.textContent="";
+
+if(loginMode){
+
+title.textContent="🔐 Sign In";
+button.textContent="Sign In";
+nameBox.style.display="none";
+switchText.textContent="Don't have an account?";
+switchButton.textContent="Create Account";
+
+}else{
+
+title.textContent="👤 Create Account";
+button.textContent="Create Account";
+nameBox.style.display="block";
+switchText.textContent="Already have an account?";
+switchButton.textContent="Sign In";
+
 }
 
+}
+
+
+/* AUTH */
+
 async function handleAuth(){
+
 const email=document.getElementById("email").value.trim();
 const password=document.getElementById("password").value;
 const msg=document.getElementById("authMsg");
 
-if(!email||!password){
+msg.className="";
+
+if(!email || !password){
+
 msg.textContent="Please enter email and password.";
 msg.className="error";
 return;
+
 }
 
 try{
+
 if(loginMode){
+
 await auth.signInWithEmailAndPassword(email,password);
+
 }else{
+
 const name=document.getElementById("name").value.trim();
 
 if(!name){
+
 msg.textContent="Please enter your name.";
 msg.className="error";
 return;
+
 }
 
-const credential=await auth.createUserWithEmailAndPassword(email,password);
+const credential=
+await auth.createUserWithEmailAndPassword(email,password);
 
 await db.collection("users").doc(credential.user.uid).set({
+
 name:name,
 email:email,
 role:"user",
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
 });
 
 msg.textContent="Account created successfully.";
 msg.className="success";
+
 }
+
 }catch(error){
+
+console.error(error);
+
 msg.textContent=getAuthError(error.code);
 msg.className="error";
+
 }
+
 }
+
+
+/* AUTH ERRORS */
 
 function getAuthError(code){
+
 switch(code){
-case "auth/email-already-in-use":return "This email is already registered.";
-case "auth/invalid-email":return "Please enter a valid email.";
-case "auth/weak-password":return "Password should be at least 6 characters.";
-case "auth/user-not-found":return "No account found with this email.";
-case "auth/wrong-password":return "Incorrect password.";
-case "auth/invalid-credential":return "Email or password is incorrect.";
-default:return "Something went wrong. Please try again.";
-}
+
+case "auth/email-already-in-use":
+return "This email is already registered.";
+
+case "auth/invalid-email":
+return "Please enter a valid email.";
+
+case "auth/weak-password":
+return "Password should be at least 6 characters.";
+
+case "auth/user-not-found":
+return "No account found with this email.";
+
+case "auth/wrong-password":
+return "Incorrect password.";
+
+case "auth/invalid-credential":
+return "Email or password is incorrect.";
+
+default:
+return "Something went wrong. Please try again.";
+
 }
 
-auth.onAuthStateChanged(async user=>{
+}
+
+
+/* AUTH STATE */
+
+auth.onAuthStateChanged(async function(user){
+
 const userBar=document.getElementById("userBar");
+const userName=document.getElementById("userName");
+const leaderCard=document.getElementById("leaderHomeCard");
 
-if(!user){
-userBar.style.display="none";
-currentRole="user";
-showAuth();
-return;
-}
+if(user){
 
 document.body.classList.remove("logged-out");
 document.body.classList.add("logged-in");
+
 userBar.style.display="flex";
 
 try{
-const snap=await db.collection("users").doc(user.uid).get();
+
+const snap=
+await db.collection("users").doc(user.uid).get();
 
 if(snap.exists){
-const data=snap.data();
-document.getElementById("userName").textContent=data.name||user.email;
-currentRole=data.role||"user";
+
+currentProfile=snap.data();
+
+currentRole=currentProfile.role || "user";
+
+userName.textContent=
+currentProfile.name || user.email;
+
 }else{
-document.getElementById("userName").textContent=user.email;
+
+currentProfile={
+name:user.email,
+email:user.email,
+role:"user"
+};
+
 currentRole="user";
+
+userName.textContent=user.email;
+
 }
-}catch(e){
-document.getElementById("userName").textContent=user.email;
+
+if(currentRole==="leader"){
+
+leaderCard.classList.remove("hidden");
+
+}else{
+
+leaderCard.classList.add("hidden");
+
+}
+
+}catch(error){
+
+console.error(error);
+
 currentRole="user";
+
+userName.textContent=user.email;
+
+leaderCard.classList.add("hidden");
+
 }
 
 showHome();
-});
 
-async function logout(){
-await auth.signOut();
+}else{
+
+currentRole="user";
+currentProfile=null;
+
+userBar.style.display="none";
+
+showAuth();
+
 }
 
+});
+
+
+/* LOGOUT */
+
+async function logout(){
+
+try{
+
+await auth.signOut();
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* REPORT */
+
 async function submitReport(){
+
 const user=auth.currentUser;
-if(!user){showAuth();return;}
 
 const msg=document.getElementById("reportMsg");
+
+if(!user){
+
+showAuth();
+return;
+
+}
+
+const category=document.getElementById("category").value;
 const desc=document.getElementById("desc").value.trim();
 const loc=document.getElementById("loc").value.trim();
 
 if(!desc){
+
 msg.textContent="Please describe the problem first.";
 msg.className="error";
 return;
+
 }
 
+msg.textContent="Submitting report...";
+msg.className="small";
+
 try{
-const profile=await db.collection("users").doc(user.uid).get();
-const name=profile.exists?profile.data().name:user.email;
+
+const name=currentProfile && currentProfile.name
+?currentProfile.name
+:user.email;
 
 await db.collection("reports").add({
-category:document.getElementById("category").value,
+
+category:category,
 description:desc,
-location:loc||"Not specified",
+location:loc || "Not specified",
 status:"Submitted",
 userId:user.uid,
 userName:name,
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
 });
 
-msg.textContent="Report submitted successfully.";
+msg.textContent=
+"Report submitted successfully. Thank you for helping your village.";
+
 msg.className="success";
 
 document.getElementById("desc").value="";
 document.getElementById("loc").value="";
-}catch(e){
-msg.textContent="Unable to submit report. Please try again.";
+
+}catch(error){
+
+console.error(error);
+
+msg.textContent=
+"Unable to submit report. Please check your connection and try again.";
+
 msg.className="error";
-}
+
 }
 
+}
+
+
+/* MY REPORTS */
+
 async function loadMyReports(){
+
 const user=auth.currentUser;
 const list=document.getElementById("myReportList");
 
-if(!user){showAuth();return;}
+if(!user){
+
+list.innerHTML='<p class="empty">Please sign in first.</p>';
+return;
+
+}
 
 list.innerHTML='<p class="empty">Loading reports...</p>';
 
 try{
-const snap=await db.collection("reports").where("userId","==",user.uid).get();
 
-if(snap.empty){
-list.innerHTML='<p class="empty">You have not submitted any reports yet.</p>';
+const snapshot=
+await db.collection("reports")
+.where("userId","==",user.uid)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=
+'<p class="empty">You have not submitted any reports yet.</p>';
+
 return;
+
 }
+
+let reports=[];
+
+snapshot.forEach(function(doc){
+
+reports.push({
+id:doc.id,
+...doc.data()
+});
+
+});
+
+reports.sort(function(a,b){
+
+const at=a.createdAt?a.createdAt.toMillis():0;
+const bt=b.createdAt?b.createdAt.toMillis():0;
+
+return bt-at;
+
+});
 
 list.innerHTML="";
 
-snap.forEach(doc=>{
-const d=doc.data();
+reports.forEach(function(data){
+
 const item=document.createElement("div");
+
 item.className="item";
 
 item.innerHTML=`
-<b>${escapeHTML(d.category)}</b>
-<p>${escapeHTML(d.description)}</p>
-<p class="small">📍 ${escapeHTML(d.location)}</p>
-<p class="small">Status: <b>${escapeHTML(d.status||"Submitted")}</b></p>
-<button class="delete" onclick="deleteReport('${doc.id}')">🗑️ Delete</button>
+
+<b>${escapeHTML(data.category)}</b>
+
+<p>${escapeHTML(data.description)}</p>
+
+<p class="small">
+📍 ${escapeHTML(data.location)}
+</p>
+
+<p class="small">
+Status:
+<b>${escapeHTML(data.status || "Submitted")}</b>
+</p>
+
+<button
+class="delete"
+onclick="deleteReport('${data.id}')">
+🗑️ Delete
+</button>
+
 `;
 
 list.appendChild(item);
+
 });
-}catch(e){
-list.innerHTML='<p class="error">Unable to load reports.</p>';
-}
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load your reports.</p>';
+
 }
 
-async function deleteReport(id){
+}
+
+
+/* DELETE REPORT */
+
+async function deleteReport(reportId){
+
 const user=auth.currentUser;
-if(!user)return;
+
+if(!user){
+
+showAuth();
+return;
+
+}
 
 if(!confirm("Delete this report permanently?"))return;
 
 try{
-const ref=db.collection("reports").doc(id);
+
+const ref=db.collection("reports").doc(reportId);
 const snap=await ref.get();
 
-if(!snap.exists)return;
+if(!snap.exists){
 
-if(snap.data().userId!==user.uid && currentRole!=="leader"){
-alert("You can only delete your own report.");
+alert("Report not found.");
 return;
+
+}
+
+if(snap.data().userId!==user.uid){
+
+alert("You can only delete your own reports.");
+return;
+
 }
 
 await ref.delete();
+
 alert("Report deleted successfully.");
+
 loadMyReports();
 loadAccount();
-}catch(e){
-alert("Unable to delete report.");
-}
+
+}catch(error){
+
+console.error(error);
+
+alert("Unable to delete report. Please try again.");
+
 }
 
+}
+
+
+/* PROPOSAL */
+
 async function submitProposal(){
+
 const user=auth.currentUser;
-if(!user){showAuth();return;}
+const msg=document.getElementById("proposalMsg");
+
+if(!user){
+
+showAuth();
+return;
+
+}
 
 const title=document.getElementById("proposalTitle").value.trim();
 const description=document.getElementById("proposalDesc").value.trim();
-const msg=document.getElementById("proposalMsg");
+const category=document.getElementById("proposalCategory").value;
 
-if(!title||!description){
+if(!title || !description){
+
 msg.textContent="Please enter a title and description.";
 msg.className="error";
 return;
+
 }
 
+msg.textContent="Submitting proposal...";
+msg.className="small";
+
 try{
-const profile=await db.collection("users").doc(user.uid).get();
-const name=profile.exists?profile.data().name:user.email;
+
+const name=currentProfile && currentProfile.name
+?currentProfile.name
+:user.email;
 
 await db.collection("proposals").add({
+
 title:title,
 description:description,
-category:document.getElementById("proposalCategory").value,
+category:category,
 userId:user.uid,
 userName:name,
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
 });
 
 msg.textContent="Proposal submitted successfully!";
@@ -672,262 +1644,1005 @@ msg.className="success";
 document.getElementById("proposalTitle").value="";
 document.getElementById("proposalDesc").value="";
 
-setTimeout(()=>show("proposals"),700);
-}catch(e){
-msg.textContent="Unable to submit proposal.";
+setTimeout(function(){
+
+show("proposals");
+
+},700);
+
+}catch(error){
+
+console.error(error);
+
+msg.textContent=
+"Unable to submit proposal. Please try again.";
+
 msg.className="error";
+
 }
+
 }
+
+
+/* LOAD PROPOSALS */
 
 async function loadProposals(){
+
 const list=document.getElementById("proposalList");
-list.innerHTML='<p class="empty">Loading proposals...</p>';
+
+list.innerHTML=
+'<p class="empty">Loading proposals...</p>';
 
 try{
-const snap=await db.collection("proposals").orderBy("createdAt","desc").limit(30).get();
 
-if(snap.empty){
-list.innerHTML='<p class="empty">No proposals yet.</p>';
+const snapshot=
+await db.collection("proposals")
+.orderBy("createdAt","desc")
+.limit(30)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=
+'<p class="empty">No proposals yet. Be the first to submit one!</p>';
+
 return;
+
 }
 
 list.innerHTML="";
 
-snap.forEach(doc=>{
-const d=doc.data();
+for(const doc of snapshot.docs){
+
+const data=doc.data();
+
 const item=document.createElement("div");
+
 item.className="item";
 
-item.innerHTML=`
-<b>${escapeHTML(d.title)}</b>
-<p>${escapeHTML(d.description)}</p>
-<p class="small">Category: ${escapeHTML(d.category||"Other")}</p>
-<p class="author">Submitted by: ${escapeHTML(d.userName||"Nayavans user")}</p>
+let deleteButton="";
 
-<div>
-<button class="action yes" onclick="vote('${doc.id}','support',this)">👍 Support</button>
-<button class="action no" onclick="vote('${doc.id}','against',this)">👎 Don't Support</button>
-<button class="action maybe" onclick="vote('${doc.id}','discussion',this)">🤔 Discussion</button>
+if(
+currentRole==="leader" ||
+data.userId===auth.currentUser.uid
+){
+
+deleteButton=`
+
+<button
+class="delete"
+onclick="deleteProposal('${doc.id}')">
+🗑️ Delete Proposal
+</button>
+
+`;
+
+}
+
+item.innerHTML=`
+
+<b>${escapeHTML(data.title)}</b>
+
+<p class="small">
+${escapeHTML(data.description)}
+</p>
+
+<p class="small">
+Category:
+${escapeHTML(data.category || "Other")}
+</p>
+
+<p class="author">
+Submitted by:
+${escapeHTML(data.userName || "Nayavans user")}
+</p>
+
+<div class="proposal-actions">
+
+<button
+class="action yes"
+onclick="vote('${doc.id}','support',this)">
+👍 Support
+</button>
+
+<button
+class="action no"
+onclick="vote('${doc.id}','against',this)">
+👎 Don't Support
+</button>
+
+<button
+class="action maybe"
+onclick="vote('${doc.id}','discussion',this)">
+🤔 Need Discussion
+</button>
+
 </div>
 
-<p class="vote-result" id="result-${doc.id}">Loading community feedback...</p>
-`;
+<p
+class="vote-result"
+id="result-${doc.id}">
+Loading community feedback...
+</p>
 
-if(d.userId===auth.currentUser.uid||currentRole==="leader"){
-item.innerHTML+=`
-<button class="delete" onclick="deleteProposal('${doc.id}')">🗑️ Delete Proposal</button>
+${deleteButton}
+
 `;
-}
 
 list.appendChild(item);
+
 loadVoteCounts(doc.id);
-});
-}catch(e){
-list.innerHTML='<p class="error">Unable to load proposals.</p>';
-}
+checkUserVote(doc.id);
+
 }
 
-async function deleteProposal(id){
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load proposals. Please try again.</p>';
+
+}
+
+}
+
+
+/* DELETE PROPOSAL */
+
+async function deleteProposal(proposalId){
+
 const user=auth.currentUser;
-if(!user)return;
+
+if(!user){
+
+showAuth();
+return;
+
+}
+
+try{
+
+const ref=db.collection("proposals").doc(proposalId);
+const snap=await ref.get();
+
+if(!snap.exists){
+
+alert("Proposal not found.");
+return;
+
+}
+
+const data=snap.data();
+
+if(
+currentRole!=="leader" &&
+data.userId!==user.uid
+){
+
+alert("You can only delete your own proposal.");
+
+return;
+
+}
 
 if(!confirm("Delete this proposal permanently?"))return;
 
-try{
-const ref=db.collection("proposals").doc(id);
-const snap=await ref.get();
-
-if(!snap.exists)return;
-
-if(snap.data().userId!==user.uid && currentRole!=="leader"){
-alert("You can only delete your own proposal.");
-return;
-}
-
 await ref.delete();
+
 alert("Proposal deleted successfully.");
+
 loadProposals();
-loadAccount();
-}catch(e){
-alert("Unable to delete proposal.");
-}
+
+if(currentRole==="leader"){
+
+loadLeaderPanel();
+
 }
 
-async function vote(proposalId,choice,button){
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to delete proposal. Please try again."
+);
+
+}
+
+}
+
+
+/* CHECK USER VOTE */
+
+async function checkUserVote(proposalId){
+
 const user=auth.currentUser;
-if(!user){showAuth();return;}
+
+if(!user)return;
 
 try{
-const ref=db.collection("proposals").doc(proposalId).collection("votes").doc(user.uid);
-const snap=await ref.get();
+
+const voteRef=
+db.collection("proposals")
+.doc(proposalId)
+.collection("votes")
+.doc(user.uid);
+
+const snap=await voteRef.get();
 
 if(snap.exists){
-alert("You have already voted.");
-return;
+
+const buttons=
+document.querySelectorAll(
+"#proposalList .item button"
+);
+
+buttons.forEach(function(button){
+
+const onclick=
+button.getAttribute("onclick") || "";
+
+if(onclick.includes(
+"vote('"+proposalId+"'"
+)){
+
+button.disabled=true;
+
 }
 
-await ref.set({
+});
+
+}
+
+}catch(error){
+
+console.error(error);
+
+}
+
+}
+
+
+/* VOTE */
+
+async function vote(proposalId,choice,button){
+
+const user=auth.currentUser;
+
+if(!user){
+
+showAuth();
+return;
+
+}
+
+try{
+
+const voteRef=
+db.collection("proposals")
+.doc(proposalId)
+.collection("votes")
+.doc(user.uid);
+
+const existing=await voteRef.get();
+
+if(existing.exists){
+
+alert("You have already voted on this proposal.");
+return;
+
+}
+
+await voteRef.set({
+
 choice:choice,
 userId:user.uid,
 createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
 });
 
-button.parentElement.querySelectorAll("button").forEach(b=>b.disabled=true);
+button.parentElement
+.querySelectorAll("button")
+.forEach(function(btn){
+
+btn.disabled=true;
+
+});
+
 loadVoteCounts(proposalId);
-}catch(e){
-alert("Unable to record your vote.");
-}
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to record your vote. Please try again."
+);
+
 }
 
-async function loadVoteCounts(id){
+}
+
+
+/* VOTE COUNTS */
+
+async function loadVoteCounts(proposalId){
+
 try{
-const snap=await db.collection("proposals").doc(id).collection("votes").get();
 
-let s=0,a=0,d=0;
+const snapshot=
+await db.collection("proposals")
+.doc(proposalId)
+.collection("votes")
+.get();
 
-snap.forEach(x=>{
-const c=x.data().choice;
-if(c==="support")s++;
-if(c==="against")a++;
-if(c==="discussion")d++;
+let support=0;
+let against=0;
+let discussion=0;
+
+snapshot.forEach(function(doc){
+
+const choice=doc.data().choice;
+
+if(choice==="support")support++;
+if(choice==="against")against++;
+if(choice==="discussion")discussion++;
+
 });
 
-const total=s+a+d;
-const result=document.getElementById("result-"+id);
+const total=support+against+discussion;
 
-if(result){
-result.textContent=total?
-`Community feedback: ${Math.round(s/total*100)}% Support · ${Math.round(a/total*100)}% Don't Support · ${Math.round(d/total*100)}% Discussion`
-:"No votes yet.";
+let text="No votes yet.";
+
+if(total>0){
+
+const s=Math.round(support/total*100);
+const a=Math.round(against/total*100);
+const d=Math.round(discussion/total*100);
+
+text=
+"Community feedback: "+
+s+"% Support · "+
+a+"% Don't Support · "+
+d+"% Discussion";
+
 }
-}catch(e){}
+
+const result=
+document.getElementById("result-"+proposalId);
+
+if(result)result.textContent=text;
+
+}catch(error){
+
+console.error(error);
+
 }
+
+}
+
+
+/* ACCOUNT */
 
 async function loadAccount(){
+
 const user=auth.currentUser;
-if(!user){showAuth();return;}
+
+if(!user){
+
+showAuth();
+return;
+
+}
 
 try{
-const profile=await db.collection("users").doc(user.uid).get();
-const data=profile.exists?profile.data():{};
 
-document.getElementById("profileName").textContent=data.name||user.email;
+const profile=
+await db.collection("users")
+.doc(user.uid)
+.get();
+
+const data=profile.exists
+?profile.data()
+:{};
+
+const name=data.name || user.email;
+const role=data.role || "user";
+
+document.getElementById("profileName").textContent=name;
 document.getElementById("profileEmail").textContent=user.email;
 
-const reports=await db.collection("reports").where("userId","==",user.uid).get();
-const proposals=await db.collection("proposals").where("userId","==",user.uid).get();
+document.getElementById("profileRole").textContent=
+role==="leader"
+?"👑 Leader / Authorized Authority"
+:"Community Member";
 
-document.getElementById("reportCount").textContent=reports.size;
-document.getElementById("proposalCount").textContent=proposals.size;
-}catch(e){}
+const reports=
+await db.collection("reports")
+.where("userId","==",user.uid)
+.get();
+
+const proposals=
+await db.collection("proposals")
+.where("userId","==",user.uid)
+.get();
+
+document.getElementById("reportCount").textContent=
+reports.size;
+
+document.getElementById("proposalCount").textContent=
+proposals.size;
+
+}catch(error){
+
+console.error(error);
+
 }
+
+}
+
+
+/* COMMUNITY STATS */
 
 async function loadCommunityStats(){
+
 try{
+
 const reports=await db.collection("reports").get();
 const proposals=await db.collection("proposals").get();
 
-document.getElementById("totalReports").textContent=reports.size;
-document.getElementById("totalProposals").textContent=proposals.size;
-}catch(e){}
+document.getElementById("totalReports").textContent=
+reports.size;
+
+document.getElementById("totalProposals").textContent=
+proposals.size;
+
+}catch(error){
+
+console.error(error);
+
 }
+
+}
+
+
+/* DEVELOPMENT */
+
+async function loadDevelopment(){
+
+const list=document.getElementById("developmentList");
+
+list.innerHTML=
+'<p class="empty">Loading development work...</p>';
+
+try{
+
+const snapshot=
+await db.collection("development")
+.orderBy("createdAt","desc")
+.limit(30)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=`
+
+<div class="item">
+
+<b>Main Road Improvement / मुख्य सड़क सुधार</b>
+
+<p class="small">
+Status: Work in progress
+</p>
+
+<div class="progress">
+<div class="bar" style="width:65%"></div>
+</div>
+
+<p>65% complete</p>
+
+</div>
+
+<div class="item">
+
+<b>Street Light Project / स्ट्रीट लाइट परियोजना</b>
+
+<p class="small">
+Status: Completed
+</p>
+
+<div class="progress">
+<div class="bar" style="width:100%"></div>
+</div>
+
+<p>100% complete</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+list.innerHTML="";
+
+snapshot.forEach(function(doc){
+
+const data=doc.data();
+
+const progress=Math.max(
+0,
+Math.min(100,
+Number(data.progress || 0)
+));
+
+const item=document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+
+<b>${escapeHTML(data.name)}</b>
+
+<p class="small">
+${escapeHTML(data.description || "")}
+</p>
+
+<p class="small">
+Status: ${escapeHTML(data.status || "Planned")}
+</p>
+
+<div class="progress">
+
+<div
+class="bar"
+style="width:${progress}%">
+</div>
+
+</div>
+
+<p>${progress}% complete</p>
+
+`;
+
+list.appendChild(item);
+
+});
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load development work.</p>';
+
+}
+
+}
+
+
+/* ANNOUNCEMENTS */
+
+async function loadAnnouncements(){
+
+const list=document.getElementById("announcementList");
+
+list.innerHTML=
+'<p class="empty">Loading announcements...</p>';
+
+try{
+
+const snapshot=
+await db.collection("announcements")
+.orderBy("createdAt","desc")
+.limit(30)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=`
+
+<div class="item">
+
+<b>Village Meeting / ग्राम बैठक</b>
+
+<p class="small">
+Important village meeting notices can be posted here by the authorized leader.
+</p>
+
+</div>
+
+<div class="item">
+
+<b>Water Supply Update / पानी की सूचना</b>
+
+<p class="small">
+Updates about village services can appear here.
+</p>
+
+</div>
+
+`;
+
+return;
+
+}
+
+list.innerHTML="";
+
+snapshot.forEach(function(doc){
+
+const data=doc.data();
+
+const item=document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+
+<b>${escapeHTML(data.title)}</b>
+
+<p>${escapeHTML(data.text)}</p>
+
+<p class="author">
+Posted by ${escapeHTML(data.userName || "Nayavans Leader")}
+</p>
+
+`;
+
+list.appendChild(item);
+
+});
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load announcements.</p>';
+
+}
+
+}
+
+
+/* LEADER PANEL */
 
 async function loadLeaderPanel(){
+
 if(currentRole!=="leader"){
-alert("Leader access only.");
+
 show("home");
 return;
+
 }
 
-const pList=document.getElementById("leaderProposalList");
-const rList=document.getElementById("leaderReportList");
+document.getElementById("leaderName").textContent=
+currentProfile && currentProfile.name
+?currentProfile.name
+:"Leader";
 
-pList.innerHTML="Loading...";
-rList.innerHTML="Loading...";
+const list=
+document.getElementById("leaderProposalList");
+
+list.innerHTML=
+'<p class="empty">Loading proposals...</p>';
 
 try{
-const proposals=await db.collection("proposals").get();
 
-if(proposals.empty){
-pList.innerHTML="No proposals.";
-}else{
-pList.innerHTML="";
-proposals.forEach(doc=>{
-const d=doc.data();
-const div=document.createElement("div");
-div.className="item";
-div.innerHTML=`
-<b>${escapeHTML(d.title)}</b>
-<p class="small">${escapeHTML(d.description)}</p>
-<button class="delete" onclick="deleteProposal('${doc.id}')">🗑️ Delete</button>
+const snapshot=
+await db.collection("proposals")
+.orderBy("createdAt","desc")
+.limit(50)
+.get();
+
+if(snapshot.empty){
+
+list.innerHTML=
+'<p class="empty">No proposals available.</p>';
+
+return;
+
+}
+
+list.innerHTML="";
+
+snapshot.forEach(function(doc){
+
+const data=doc.data();
+
+const item=document.createElement("div");
+
+item.className="item";
+
+item.innerHTML=`
+
+<b>${escapeHTML(data.title)}</b>
+
+<p class="small">
+${escapeHTML(data.description)}
+</p>
+
+<p class="small">
+Category:
+${escapeHTML(data.category || "Other")}
+</p>
+
+<p class="author">
+Submitted by:
+${escapeHTML(data.userName || "Nayavans user")}
+</p>
+
+<button
+class="delete"
+onclick="leaderDeleteProposal('${doc.id}')">
+🗑️ Delete Proposal
+</button>
+
 `;
-pList.appendChild(div);
+
+list.appendChild(item);
+
 });
+
+}catch(error){
+
+console.error(error);
+
+list.innerHTML=
+'<p class="error">Unable to load leader proposals.</p>';
+
 }
 
-const reports=await db.collection("reports").get();
-
-if(reports.empty){
-rList.innerHTML="No reports.";
-}else{
-rList.innerHTML="";
-reports.forEach(doc=>{
-const d=doc.data();
-const div=document.createElement("div");
-div.className="item";
-div.innerHTML=`
-<b>${escapeHTML(d.category)}</b>
-<p>${escapeHTML(d.description)}</p>
-<p class="small">📍 ${escapeHTML(d.location)}</p>
-<button class="delete" onclick="deleteLeaderReport('${doc.id}')">🗑️ Delete</button>
-`;
-rList.appendChild(div);
-});
-}
-}catch(e){
-pList.innerHTML="Unable to load.";
-rList.innerHTML="Unable to load.";
-}
 }
 
-async function deleteLeaderReport(id){
+
+/* LEADER DELETE */
+
+async function leaderDeleteProposal(proposalId){
+
 if(currentRole!=="leader"){
+
 alert("Leader access only.");
 return;
+
 }
 
-if(!confirm("Delete this report permanently?"))return;
+if(!confirm(
+"Leader action: delete this proposal permanently?"
+))return;
 
 try{
-await db.collection("reports").doc(id).delete();
-alert("Report deleted.");
+
+await db.collection("proposals")
+.doc(proposalId)
+.delete();
+
+alert("Proposal deleted by leader.");
+
 loadLeaderPanel();
-}catch(e){
-alert("Unable to delete report.");
+loadProposals();
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Unable to delete proposal. Check Firestore rules."
+);
+
 }
+
 }
+
+
+/* LEADER ADD ANNOUNCEMENT */
+
+async function leaderAddAnnouncement(){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+const title=
+document.getElementById("announcementTitle")
+.value.trim();
+
+const text=
+document.getElementById("announcementText")
+.value.trim();
+
+const msg=
+document.getElementById("announcementMsg");
+
+if(!title || !text){
+
+msg.textContent=
+"Enter both title and message.";
+
+msg.className="error";
+
+return;
+
+}
+
+try{
+
+await db.collection("announcements").add({
+
+title:title,
+text:text,
+userId:auth.currentUser.uid,
+userName:currentProfile.name || "Leader",
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+});
+
+msg.textContent=
+"Announcement published successfully.";
+
+msg.className="success";
+
+document.getElementById("announcementTitle").value="";
+document.getElementById("announcementText").value="";
+
+loadAnnouncements();
+
+}catch(error){
+
+console.error(error);
+
+msg.textContent=
+"Unable to publish announcement.";
+
+msg.className="error";
+
+}
+
+}
+
+
+/* LEADER ADD PROJECT */
+
+async function leaderAddProject(){
+
+if(currentRole!=="leader"){
+
+alert("Leader access only.");
+return;
+
+}
+
+const name=
+document.getElementById("projectName")
+.value.trim();
+
+const desc=
+document.getElementById("projectDesc")
+.value.trim();
+
+const status=
+document.getElementById("projectStatus").value;
+
+const progress=
+Number(document.getElementById("projectProgress").value || 0);
+
+const msg=
+document.getElementById("projectMsg");
+
+if(!name || !desc){
+
+msg.textContent=
+"Enter project name and description.";
+
+msg.className="error";
+
+return;
+
+}
+
+if(progress<0 || progress>100){
+
+msg.textContent=
+"Progress must be between 0 and 100.";
+
+msg.className="error";
+
+return;
+
+}
+
+try{
+
+await db.collection("development").add({
+
+name:name,
+description:desc,
+status:status,
+progress:progress,
+userId:auth.currentUser.uid,
+userName:currentProfile.name || "Leader",
+createdAt:firebase.firestore.FieldValue.serverTimestamp()
+
+});
+
+msg.textContent=
+"Development work published successfully.";
+
+msg.className="success";
+
+document.getElementById("projectName").value="";
+document.getElementById("projectDesc").value="";
+document.getElementById("projectProgress").value="0";
+
+loadDevelopment();
+
+}catch(error){
+
+console.error(error);
+
+msg.textContent=
+"Unable to publish development work.";
+
+msg.className="error";
+
+}
+
+}
+
+
+/* ESCAPE HTML */
 
 function escapeHTML(value){
+
 const div=document.createElement("div");
-div.textContent=value||"";
+
+div.textContent=value || "";
+
 return div.innerHTML;
+
 }
 
+
+/* LANGUAGE */
+
 function toggleLang(){
+
 const tag=document.getElementById("tag");
 const welcome=document.getElementById("welcome");
 const sub=document.getElementById("sub");
 
 if(tag.textContent==="Your Village, Your Responsibility"){
-tag.textContent="आपका गाँव, आपकी जिम्मेदारी";
-welcome.textContent="नयावंस में आपका स्वागत है";
-sub.textContent="बेहतर गाँव के लिए मिलकर काम करें।";
+
+tag.textContent=
+"आपका गाँव, आपकी जिम्मेदारी";
+
+welcome.textContent=
+"नयावंस में आपका स्वागत है";
+
+sub.textContent=
+"बेहतर गाँव के लिए मिलकर काम करें।";
+
 }else{
-tag.textContent="Your Village, Your Responsibility";
-welcome.textContent="Welcome to Nayavans";
-sub.textContent="Let's work together for a better village.";
+
+tag.textContent=
+"Your Village, Your Responsibility";
+
+welcome.textContent=
+"Welcome to Nayavans";
+
+sub.textContent=
+"Let's work together for a better village.";
+
 }
+
 }
+
 </script>
 
 </body>
